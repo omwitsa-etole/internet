@@ -51,6 +51,8 @@ if(isset($_POST["remove"]))
 		 $execute = $link->query($sql);
 		 if (!$execute) {
 			 echo 'failed';
+			} else {
+				header("url=jobs.php?title=");
 			}
 		}
 	}
