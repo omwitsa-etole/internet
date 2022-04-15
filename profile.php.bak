@@ -104,7 +104,7 @@ $postname = $_GET['postnamep'];
 			}mysqli_stmt_close($stmt);
 		}
 					
-	mysqli_close($link);			
+				
 }?>
 <?php 
  require_once "database.php"; 

@@ -138,7 +138,7 @@ body {
   box-shadow: 0 10px 20px rgb(64 64 64 / 5%);
   
 }
-.menu  a {
+.menu  > a {
   font: inherit;
   border: 0;
   padding: 10px 30px 10px 15px;
