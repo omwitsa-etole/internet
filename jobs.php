@@ -216,11 +216,11 @@ if($retval00->num_rows > 0){
    
   </table>
   </div>
-<table border="1px" width="200px" style="background: gray;position: fixed;bottom: 2%;border-collapse: collapse;">
+<table border="1px" width="20%" style="background: gray;position: fixed;bottom: 1%;border-collapse: collapse;">
   <td>
   <center>
   <div style="position: auto;">
-  Having trouble?<hr/><br>
+  Having trouble?<hr/>
   </div>
   <p><a href="mailto:omwitsabradone@gmail.com">CONTACT US</a></P><br><br>
   </center>

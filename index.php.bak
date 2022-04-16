@@ -312,6 +312,49 @@ Date: <?php echo $time_elapsed = timeAgo($time);?>
 
 </div>
 
+<div style="position: fixed;top: 17%;right: -22.5%;width: 43%;height: 450px;overflow: auto;">
+<table border="1px" height="400px" width="50%" style="border-collapse: collapse;position: absolute;overflow: auto;">
+<tr><th>REQUESTS</th></tr>
+<?php 
+ require_once "database.php"; 
+$counter = 0;
+$check = 'SELECT * FROM friends where id_friend='.$_SESSION["id"].'';
+$rel = $link->query($check);
+$count = mysqli_num_rows($rel);
+if($count == 0){
+?>
+<td>Friend Requests will show here</td>
+<?php
+}else {
+$confirmed = 0;
+$sql0 = 'SELECT * FROM friends where id_friend='.$_SESSION["id"].' ';
+$result = $link->query($sql0);
+while($rows=$result->fetch_assoc())
+{
+if($rows["is_confirmed"] == $confirmed){
+?>
+<tr>
+<td>
+<div id="requests">
+<img src="image/avatar.jpg" alt="profile" style="border-radius: 50%;width: 30%;height: 80px;margin-left:;margin-top:;">
+<div id="requestsdata">
+<p><?php echo $rows["name"]?></a></p>
+<p><?php echo $rows["username"]?></p>
+<span id="req-btn">
+<form method="POST" action=""><input type="text" name="number" value="<?php echo $rows["no"];?>" style="display: none;">
+<button type="submit" name="reject" style="background: red;">Reject</button>
+<button type="submit" name="accept" style="background: green;">Accept</button></form></span>
+</div>
+</div>
+</td>	
+</tr>
+<?php
+}
+}
+}
+?>
+</table>
+</div>
 <?php include "footer.php";?>
 <script>
 	const upload = document.getElementById("upload");

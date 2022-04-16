@@ -147,12 +147,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 <td>
 <center>
 <div style="align-items: center; justify-content: center;">
-<table border="1px" width="400px" style="border-collapse: collapse;">
+<table border="1px" width="42%" style="border-collapse: collapse;">
 <td>
 <form method="post" action="">
-<center>EMAIL:<br><input type="text" placeholder="enter email/username/phone" name="email" style="padding: 10px; border: line;"><br>
+<center>EMAIL:<br><input type="text" placeholder="enter email/username/phone" name="email" style="padding: 5%; border: line;"><br>
 <span ><?php echo $email_err?></span><br><br>
-PASSWORD:<br><input type="password" placeholder="enter password" name="password" id="password" value="<?php $password;?>" style="padding: 10px; border: line;"><br><br>
+PASSWORD:<br><input type="password" placeholder="enter password" name="password" id="password" value="<?php $password;?>" style="padding: 5%; border: line;"><br><br>
 <span ><?php echo $password_err?></span><br>
 <input type="checkbox" onchange="showpass()">show password<br>
 <a href="forgotpass.php">forgot password?</a><br><br>

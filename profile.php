@@ -30,7 +30,7 @@ $postname = $_GET['postnamep'];
 					$_SESSION["profile2"] = $profile;
 					$_SESSION["background2"] = $background;
 					}	
-				}else { echo 'error';}
+				}
 				
 			}
 	mysqli_stmt_close($stmt2);

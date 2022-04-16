@@ -430,7 +430,7 @@ hr {
 
 /* Full-width input fields */
 .enter-popup input[type=password] {
-  width: 100%;
+  width: 90%;
   padding: 15px;
   margin: 5px 0 22px 0;
   border: none;
@@ -484,7 +484,7 @@ hr {
   width: 50%; /* Could be more or less, depending on screen size */
 }
 .ainfo {
-	margin-left: 20%;
+	margin-top: 5%;
 }
 .pinfo {
 	border-collapse: collapse;
@@ -529,7 +529,6 @@ hr {
 }
 #tablesettings {
 	border-collapse: collapse;
-	position: absolute;
 }
 #tablesettings td{ cursor: pointer;padding: 3%;}
 #changepass table{
@@ -540,8 +539,6 @@ hr {
 	left: 40%;
 }
 .payment {
-	float: right;
-	margin: 25% 0px 0px 0px;
 }
 .payment table{
 	position: absolute;
@@ -556,53 +553,7 @@ hr {
 	padding: 5%;
 }
 </style>
-<div id="accountsmain">
-<div style="float: right;margin-right: 30%;">
-<table id="tablesettings" border="1px" width="30%">
-<tr><th><center>ACCOUNT SETTINGS</center></th></tr><hr/><form method="POST" action="" id="form1">
-<tr>
-<td>
-Dark mode <span style="float: right;margin-left: -20%;" id="radios"><input type="text" id="val" name="mode" value="" style="display: none;">
-<?php if($_SESSION["mode"] == 0){?>
-light<input type="radio" name="mode" value="0" checked>
-dark<input type="radio" name="mode" value="1">
-<?php }else{ ?>
-light<input type="radio" name="mode" value="0" >
-dark<input type="radio" name="mode" value="1" checked>
-<?php }?>
-</span>
-</td>
-</tr><br>
-<tr>
-<td onclick="document.getElementById('changepass').style.display='block'" >
-change Password
-</td>
-</tr>
-<tr>
-<td>
-<input type="submit" value="save" name="updatemode" style="padding: 8px;position: auto;float: right;"></form>
-</td>
-</tr>
-</table><br>
-</div>
-<div class="payment">
-<table border="1px">
-<tr><th>PAYMENTS HISTORY</th></tr>
-<tr><td>
-ACCOUNT BALANCE: 
-</td></tr>
-<tr><td>
-PENDING PAYEMENTS: 
-</td></tr>
-<tr><td>
-JOBS COMPLETED: 
-</td></tr>
-<tr><td>
-PERFOMANCE RATING: 
-</td></tr>
-</table>
-</div>
-
+<div id="accountsmain" style="position: absolute;width: 100%;height: 100%;margin-left: 25%;">
 <div class="ainfo">
 <div>
 <form method="POST" action="" enctype="multipart/form-data">
@@ -633,7 +584,7 @@ while($rows=$result->fetch_assoc())
 <?php
 	}else{
 ?>
-<a href="verifyemail.php?email=<?php $_SESSION["email"];?>" target="_blank"><button type="button" style="border-radius: 5px;color: red;background: white;float: right;margin-top: 2%;">Not verified</button></a>
+<a href="verifyemail.php?email=<?php $_SESSION["email"];?>" target="_blank"><button type="button" style="border-radius: 5px;color: red;background: white;float: right;margin-top: 7%;">Not verified</button></a>
 <?php } }?>
 </td></tr>
 </td></tr>
@@ -682,7 +633,56 @@ Address: 42613-00100
 </td></tr>
 </table>
 </div>
+</div><br>
+<div>
+<table id="tablesettings" border="1px" width="30%">
+<tr><th><center>ACCOUNT SETTINGS</center></th></tr><form method="POST" action="" id="form1">
+<tr>
+<td>
+Dark mode <span style="float: right;margin-left: -20%;" id="radios"><input type="text" id="val" name="mode" value="" style="display: none;">
+<?php if($_SESSION["mode"] == 0){?>
+light<input type="radio" name="mode" value="0" checked>
+dark<input type="radio" name="mode" value="1">
+<?php }else{ ?>
+light<input type="radio" name="mode" value="0" >
+dark<input type="radio" name="mode" value="1" checked>
+<?php }?>
+</span>
+</td>
+</tr><br>
+<tr>
+<td onclick="document.getElementById('changepass').style.display='block'" >
+change Password
+</td>
+</tr>
+<tr><td onclick="document.getElementById('id01').style.display='block'">
+Delete Account
+</td></tr>
+<tr>
+<td>
+<input type="submit" value="save" name="updatemode" style="padding: 8px;position: auto;float: right;"></form>
+</td>
+</tr>
+</table><br>
+</div><br>
+<div class="payment">
+<table border="1px">
+<tr><th>PAYMENTS HISTORY</th></tr>
+<tr><td>
+ACCOUNT BALANCE: 
+</td></tr>
+<tr><td>
+PENDING PAYEMENTS: 
+</td></tr>
+<tr><td>
+JOBS COMPLETED: 
+</td></tr>
+<tr><td>
+PERFOMANCE RATING: 
+</td></tr>
+</table>
 </div>
+
 
 <div id="id01" class="modal">
   <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
@@ -724,7 +724,6 @@ Confrim New Password<br><input type="password" name="confirm_password" ><br><br>
 </tr>
 </table>
 </div>
-<button style="background: red;position: fixed;bottom: 15%;padding: 2% 5%;" onclick="document.getElementById('id01').style.display='block'">Delete Account</button>
 </div>
 <?php include "footer.php";?>
 <script>

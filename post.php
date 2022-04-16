@@ -62,53 +62,63 @@ if(isset($_POST["dislike"]))
 
 ?>
 <style>
-.post table{
-	position: auto;
-	margin: 6% 0px 0px 240px;
-	display: block;
-	border-collapse: collapse;
-	height: 600px;
-	background-color: white;
+.col-container {
+  display: table; 
+  width: 70%; 
+  min-height: 50%;
+  margin-left: 20%;
+  margin-top: 10%;
+ box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
 }
-.postcontainer {
-  position: absolute;
-  border: 2px solid #dedede;
-  background-color: white;
-  border-radius: 5px;
-  padding: 10px;
-  margin: 10px 0;
-  margin-top: 0px;
-  margin-right: 400px;
-  height: 540px;
-  width: 45%;
-  display: inline-block;
+.col {
+  display: table-cell; 
+  width: 100%;
+  position: relative;
+  overflow: auto; 
+  
 }
-.inputpost {
-	max-height: 100%;
-    max-width: 60%;
-	color: black;
+.left {
+  left: 0;
+  width: 50%;
+  min-height: 200px;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }
-.container {
- position: absolute;
-  border: 2px solid #dedede;
-  background-color: #f1f1f1;
-  border-radius: 5px;
-  padding: 10px;
-  margin: 10px 0;
-  margin-top: 0px;
-  margin-left: 48%;
-  height: 540px;
-  width: 49%;
-  display: inline-block;
-}
-.comments {
-  height: 100%;
+
+.right {
+  right: 0;
+  width: 50%;
+  min-height: 200px;
   overflow: auto;
+  box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
 }
-.time-right {
-  float: right;
-  margin-top: -3px;
-  color: blue;
+.centered {
+	position: absolute
+	top: 0;
+}
+.lowerbtn {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+}
+.upper {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  text-align: center;
+}
+.lowerbtn button{
+	margin-left: 2%;
+	padding: 3% 7%;
+}
+@media only screen and (max-width: 600px) {
+  .col {
+    display: block;
+    width: 100%;
+  }
+  .col-container {
+	  margin-top: 15%;
+  }
 }
 .msg-popup {
   display: none;
@@ -128,64 +138,44 @@ if(isset($_POST["dislike"]))
   border: none;
   background: #f1f1f1;
   resize: none;
-  min-height: 200px;
+  min-height: 100px;
 }
-.msgbtn {
-	position: relative;
-	float: right;
-	padding: 10px 14px;
-	border-radius: 5px;
-	margin-top: -18%;
-}
-.msgbtn-cancel {
-	position: relative;
-	float: left;
-	padding: 10px 14px;
-	background: red;
-	border-radius: 5px;
-	margin-top: -18%;
-}
-.lowerbtn {
-	position: absolute;
-	background: #555;
-	width: 51%;
-	border-radius: 8px;
-	margin-top: 58%;
-	float: right;
-	margin-left: 48%;
-}
-.lowerbtn button{
-	padding: 5%;
-	margin-left: 7%;
-	margin-top: 2%;
-	cursor: pointer;
-	border: none;
-}
-.lowerbtn button:hover{
-	border-radius: 50%;
-}
-
-.comm i{
-	display: block;
-	color: black;
-}
-.comm { margin-left: 15%; margin-top: -5%;}
-.btno { margin-left: 35%;margin-top: -14%;}
-
 </style>
-
-<div class="post">
-<table id="post" width="70%" >
-<tr border="1px">
-<td>
-<div style="position: absolute;width: 70%;">
-<input type="button" onclick="history.back()" value="x" style="position: relative;color: red;border: none;">
-<div class="row-datashow" style="float: left;max-width: 40%;">
-
+<div class="col-container">
+<input type="button" onclick="history.back()" value="x" style="position: absolute;right: 10%;color: red;border: none;">
+<div class="col left">
+  <div class="centered">
+  <?php echo $post;
+	if($_GET["imagen"] == ""){
+	?><br>
+	<?php
+	}else{
+	?>
+    <img src="<?php echo 'imagepost/'.$_GET["imagen"].'';?>" width="90%" height="70%">
+	<?php }?>
+  </div>
+<div class="lowerbtn">
+<form method="POST" action="" enctype="multipart/form-data">
+<?php echo $likes;?><button type="submit" name="like" id="like"  onclick="myFunction(this)" class="fa fa-thumbs-up"></button>
+<?php echo $dislikes;?><button type="submit" name="dislike" id="dislike" onclick="myFunction2(this)" class="fa fa-thumbs-down"></button>
+<input type="text" name="likes" value="<?php echo $likes+1;?>" style="display:none;">
+<input type="text" name="dislikes" value="<?php echo $dislikes+1;?>" style="display:none;">
+<button type="button" class="fa fa-message"  onclick="openForm()"></button>
+<button type="button" class="fa fa-share"></button>
+</form>
 </div>
-<div style="max-width: 44%;">
-<div class="container">
-<div class="comments">
+</div>
+<div class="col right">
+<div class="upper">
+<a href="javascript:void(0)" onclick="openForm()">ADD COMMENT<br></a>
+  <div class="msg-popup" id="myForm"><form method='POST'>
+<textarea placeholder="Type comment." name="comment" required></textarea>
+<button type="submit" name="postcomment" class="msgbtn">Send</button>
+<button type="button" class="msgbtn-cancel" onclick="closeForm()">Cancel</button>
+</form>
+</div>
+</div>
+<div class="centered">
 <?php 
  require_once "database.php"; 
 $counter = 0;
@@ -203,6 +193,7 @@ while($rows=$result->fetch_assoc())
 		
 {
 ?>
+    Comments:<br>
 <div>
 <img src="profile/<?php echo $row["profile"];?>" alt="Avatar" style="border-radius: 50%; width: 10%;height:7%;"><p class="comm"><?php echo '<i>'.$row['name'].'</i>';?>
 <?php echo '<i>  @'.$rows['username'].'</i>';?></p>
@@ -216,49 +207,12 @@ while($rows=$result->fetch_assoc())
 }
 }
 
-echo '<a href="javascript:void(0)" onclick="openForm()">ADD COMMENT<br><br><br><br></a>';
 ?>
-<div class="msg-popup" id="myForm"><form method='POST'>
-<textarea placeholder="Type comment." name="comment" required></textarea>
-<button type="submit" name="postcomment" class="msgbtn">Send</button>
-<button type="button" class="msgbtn-cancel" onclick="closeForm()">Cancel</button>
-</form>
 </div>
+
 </div>
 </div>
 
-<div class="postcontainer">
-<div class="inputpost">
-<a href="viewprofile.php?idn=<?php echo $idn;?>&postname=<?php echo $postname?>&uname=<?php echo $postusername?>"><?php echo '@'.$_GET["uname"].'';?></a><br>
-<?php echo $post;
-if($_GET["imagen"] == ""){
-?><br>
-<?php
-}else{
-?>
-<img src="<?php echo 'imagepost/'.$_GET["imagen"].'';?>" width="100%" height="30%"><br>
-<?php
-}
-?>
-</div>
-</div>
-</div>
-<span style="position: absolute;margin-top: 63%;">Likes: <?php echo $likes;?> Dislikes: <?php echo $dislikes;?> Comments: <?php echo $counter;?></span>
-<div class="lowerbtn">
-<form method="POST" action="" enctype="multipart/form-data">
-<button type="submit" name="like" id="like"  onclick="myFunction(this)" class="fa fa-thumbs-up"></button>
-<button type="submit" name="dislike" id="dislike" onclick="myFunction2(this)" class="fa fa-thumbs-down"></button>
-<input type="text" name="likes" value="<?php echo $likes+1;?>" style="display:none;">
-<input type="text" name="dislikes" value="<?php echo $dislikes+1;?>" style="display:none;">
-<button type="button" class="fa fa-sms"  onclick="openForm()"></button>
-<button type="button" class="fa fa-share"></button>
-</form>
-</div>
-</td>
-</tr>
-</table>
-
-</div> 
 <script>
 
 function openForm() {
