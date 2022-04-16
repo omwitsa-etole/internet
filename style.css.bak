@@ -133,7 +133,7 @@ body {
   margin-top: 1.5%;
 }
 .dropbtn {
-  padding: 12px 60px;
+  padding: 13px 60px;
 }
 
 .dropup-content {
