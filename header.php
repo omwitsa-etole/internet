@@ -273,11 +273,11 @@ while($rows=$result000->fetch_assoc())
 </div>
 </div>
 </div>
-
 <span onclick="openNav()">
 <div id="menu-mobile" class="fa fa-bars"></div>
 </span>
 <div class="dropdown">
+	<a href="index.php"><button>Home</button></a>
     <button class="dropbtn">MyJobs
       <i class="fa fa-caret-down"></i>
     </button>
@@ -292,6 +292,7 @@ while($rows=$result000->fetch_assoc())
 <input type="text" name="search" placeholder="Search for posts.." value="<?php if(isset($_GET["search"])){ echo $_GET["search"];}?>">
 </form>
 </div>
+
 </div>
 <div class="profileh">
   <a href="userprofile.php"><img src="avatar.jpg" alt="<?php echo $name;?>" style="width:100%;"></a>

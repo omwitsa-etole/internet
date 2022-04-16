@@ -126,14 +126,14 @@ body {
 
 .dropup {
   position: fixed;
-  bottom: 0;
+  bottom: 2.5%;
   display: inline-block;
   float: right;
   margin-right: 5%;
   margin-top: 1.5%;
 }
 .dropbtn {
-  padding: 10px 60px;
+  padding: 13px 60px;
 }
 
 .dropup-content {
@@ -202,7 +202,7 @@ img {
 }
 
 .post_container {
-	margin-left: 20%;
+	margin-left: 25%;
 	width: 55%;
 	text-align: justify;
 	border-radius: 10px;
