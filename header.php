@@ -257,16 +257,6 @@ while($rows=$result000->fetch_assoc())
 }
 ?>
 <div class="menunav">
-<div class="dropdown">
-    <button class="dropbtn">MyJobs
-      <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="dropdown-content">
-      <a href="upload.php">New Job</a>
-      <a href="jobs.php?title=">View Jobs</a>
-      <a href="Jobsaccount.php">Account</a>
-    </div>
-</div>
 <div id="mySidenav" class="sidenav">
 <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 <a href="index.php" >HOME</a>
@@ -287,6 +277,16 @@ while($rows=$result000->fetch_assoc())
 <span onclick="openNav()">
 <div id="menu-mobile" class="fa fa-bars"></div>
 </span>
+<div class="dropdown">
+    <button class="dropbtn">MyJobs
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="upload.php">New Job</a>
+      <a href="jobs.php?title=">View Jobs</a>
+      <a href="Jobsaccount.php">Account</a>
+    </div>
+</div>
 <div id="myInput">
 <form method="GET" action="search.php">
 <input type="text" name="search" placeholder="Search for posts.." value="<?php if(isset($_GET["search"])){ echo $_GET["search"];}?>">
