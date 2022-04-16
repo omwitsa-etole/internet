@@ -153,7 +153,7 @@ if(isset($_POST["reject"]))
 <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
 <div class="posttable" style="width: 100%;height:100%;position: auto;margin-top: 5%;">
 <center>
-  <table border="1px" width="55%" height="15%" style="border-collapse: collapse;margin-left: 5%;">
+  <table border="1px" width="55%" height="15%" style="border-collapse: collapse;margin-left: 5%;margin-top: 2.5%;">
   <td>
   <a href="userprofile.php"><img src="<?php echo 'profile/'.$_SESSION["profile"].'';?>" height="70px" width="10%" style="border-radius: 50%;"></a><a href="upload.php"><input type="button" class="post-btn" value="POST"></a><br>
   <div class="post-item">
