@@ -4,7 +4,7 @@ require_once "database.php";
 $success = $email = $password = $confirmpassword = $firstname = $lastname = $name = $gender = $phone = $date = '';
 $email_err = $password_err = $p_err =  $phone_err =  $username_err = $fname_err = $gender_err = $date_err = $name_err ='';
 
-if($_SERVER["REQUEST_METHOD"] == "POST")
+if(isset($_POST["create-client"]))
 {
 	if(empty(trim($_POST["firstname"]))){
 		$fname_err = "enter firstname";

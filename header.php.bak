@@ -268,7 +268,7 @@ while($rows=$result000->fetch_assoc())
 <div id="mydropdown" class="dropup-content">
 <a href='userprofile.php'>PROFILE</a>
 <a href="message.php?msgn=Select message in the table to preview&non=1">INBOX<p style="width: 27%;text-align: center;float: right;margin-top: -2%;border-radius: 50%;background-color: green;"><?php echo$counter;?></p></a>
-<a href="javascript:void(0)" onclick="logout()">LOG OUT</a>
+<a href="logout.php">LOG OUT</a>
 </div>
 </div>
 </div>

@@ -322,7 +322,7 @@ h2:after {
 <form method="POST">
 <h2>Freelance Registration form</h2>
 <p style="float: right;cursor: pointer;color:red;margin-top: -7%;"><a style="zoom: 150%;"onclick="exit()">&times</a></p>
-<center><div class="g-signin2" data-width="350" data-height="60" data-longtitle="true"></div><br>
+<center><button class="btn-opt-google" type="button"><i class="fa fa-google"></i>Continue with Google</button><br>
 <button type="button" class="btn-opt-apple" type="button"><i class="fa fa-apple"></i>Continue with Apple</button><br></center>
 <hr/>
 <input type="text" placeholder="First name" name="firstname"> <input type="text" name="lastname" placeholder="Last name"><br>

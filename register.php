@@ -156,6 +156,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 	margin-top: 2.5%;
 	font-size: 17px;
 }
+.btn-sign{
+	padding: 3% 17%;
+	background: green;
+	color: white;
+	border-radius: 15px;
+}
 .btn-opt-google{
 	margin-top: 2%;
 	background: #00BFFF;
