@@ -93,8 +93,10 @@ if(empty($all_err))
 ?>
 <head>
 <title>Sign up</title>
-<META charset="UTF-8">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="keywords" content="Jobs, online, posts, comments, hire, freelance, freelancer, images, share, jobprofile">
+<meta name="google-signin-client_id" content="75332547705-428c5vr23v4dmlrvd1un82pa099r3q0c.apps.googleusercontent.com">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 <style>
@@ -280,14 +282,14 @@ h2:after {
 <button class="check-button" name="client" onclick="changecheck(this.name)"><p><input id="client" type="radio" name="join-option" value="Join as Client"></p><span><i class="fa fa-file" aria-hidden="true"></i><br>I’m a client, hiring for a project</span></button>
 <button class="check-button" name="freelancer" onclick="changecheck(this.name)"><p><input id="freelancer" type="radio" name="join-option" value="Applly as Freelancer"></p><span><i class="fa fa-file-text-o" aria-hidden="true"></i><br>I’m a freelancer, looking for work</span></button><br>
 <button class="sub-btn" type="button" onclick="generateform(this.innerHTML)" id="join-option">Create Account</button>
-<div style="color: black;font-size: 18px;margin-top: 3%;">Already have an account <a href="regiter.php" style="color: green;">Login</a></div>
+<div style="color: black;font-size: 18px;margin-top: 3%;">Already have an account <a href="register.php" style="color: green;">Login</a></div>
 </div></center>
 <div id="clientform" style="display: none;position: fixed;z-index: 1;width: 100%;height: 100%;top: 5%;left: 15%;">
 <div class="client-form" >
 <form method="POST">
 <h2>Client Registration form</h2>
 <p style="float: right;cursor: pointer;color:red;margin-top: -7%;"><a style="zoom: 150%;"onclick="exit()">&times</a></p>
-<center><button type="button" class="btn-opt-google" type="button"><i class="fa fa-google"></i>Continue with Google</button><br>
+<center><div class="g-signin2" data-width="350" data-height="60" data-longtitle="true"></div><br>
 <button type="button" class="btn-opt-apple" type="button"><i class="fa fa-apple"></i>Continue with Apple</button><br></center>
 <hr/>
 <input type="text" placeholder="First name" name="firstname"> <input type="text" name="lastname" placeholder="Last name"><br>
@@ -320,7 +322,7 @@ h2:after {
 <form method="POST">
 <h2>Freelance Registration form</h2>
 <p style="float: right;cursor: pointer;color:red;margin-top: -7%;"><a style="zoom: 150%;"onclick="exit()">&times</a></p>
-<center><button type="button" class="btn-opt-google" type="button"><i class="fa fa-google"></i>Continue with Google</button><br>
+<center><div class="g-signin2" data-width="350" data-height="60" data-longtitle="true"></div><br>
 <button type="button" class="btn-opt-apple" type="button"><i class="fa fa-apple"></i>Continue with Apple</button><br></center>
 <hr/>
 <input type="text" placeholder="First name" name="firstname"> <input type="text" name="lastname" placeholder="Last name"><br>
@@ -381,4 +383,12 @@ function uncheck(){
 	var x = document.getElementById("submit");
 	if(x.disabled == true){ x.disabled = false;}else{ x.disabled = true;}
 }
+function onSignIn(googleUser) {
+  var profile = googleUser.getBasicProfile();
+  console.log('ID: ' + profile.getId()); 
+  console.log('Name: ' + profile.getName());
+  console.log('Image URL: ' + profile.getImageUrl());
+  console.log('Email: ' + profile.getEmail()); 
+}
 </script>
+<script src="https://apis.google.com/js/platform.js" async defer></script>

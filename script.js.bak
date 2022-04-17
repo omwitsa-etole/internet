@@ -54,8 +54,8 @@ function closepost() { document.getElementById("post").style.display = "none";do
   document.getElementById("body").style.background = "white";document.getElementById("nextpost").style.display = "none";
 }
 function closenextpost() { document.getElementById("nextpost").style.display = "none";}
-function showoption() {
-  document.getElementById("mydropdown").classList.toggle("show");
+function openNav() {
+  document.getElementById("mySidenav").style.width = "150px";
 }
 
 function searchform()

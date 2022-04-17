@@ -31,13 +31,11 @@ function scrollFunction() {
 function backtop(){ document.body.scrollTop = 0;}
 function logout()
 {
-	if (confirm("ARE YOU SURE YOU WANT TO LOG OUT")){
-		window.location = 'logout.php';
-	}else if(confirm = false) {
-		e.preventDefault();
-		document.location.reload(false);
-	}
-	
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
+    });
+	window.location = 'logout.php';
 }
 
 function openNav() {

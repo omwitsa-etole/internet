@@ -140,6 +140,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 
 }
 ?>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="keywords" content="Jobs, online, posts, comments, hire, freelance, freelancer, images, share, jobprofile">
+<meta name="google-signin-client_id" content="75332547705-428c5vr23v4dmlrvd1un82pa099r3q0c.apps.googleusercontent.com">
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -166,14 +171,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 	padding: 3% 20%;
 	border-radius: 15px;
 }
-.btn-opt-google{
-	margin-top: 4%;
-	background: #00BFFF;
-	color: white;
-	text-align: center;
-	padding: 3% 20%;
-	border-radius: 15px;
-}
+
 .bottom {
 	margin-top: 2%;
 }
@@ -185,6 +183,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 	margin-top: 2%;
 }
 </style>
+</head>
 <body>
 <div style="color: green;font-size: 18px;font-weight: bold;font-family:Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif ;">
 <h3>My Jobs</h3>
@@ -201,7 +200,8 @@ PASSWORD:<br><input type="password" placeholder="enter password" name="password"
 <a href="forgotpass.php">forgot password?</a><br><br>
 <button type="submit" class="btn-sign">SIGN IN</button><br>
 <hr/>
-<button class="btn-opt-google" type="button"><i class="fa fa-google"></i>Continue with Google</button><br>
+<div  data-onsuccess="onSignIn"></div>
+<div class="g-signin2" data-width="350" data-height="60" data-longtitle="true"></div><br>
 <button class="btn-opt-apple" type="button"><i class="fa fa-apple"></i>Continue with Apple</button><br>
 <hr/>
 <div class="bottom">DONT HAVE AN ACCOUNT? <br><a href="signup.php"><button type="button">Sign up</button></a></div><br>
@@ -215,4 +215,13 @@ function showpass(){
 	var x = document.getElementById("password");
 	if(x.type == "password"){ x.type = "text";}else{x.type = "password";}
 }
+function onSignIn(googleUser) {
+  var profile = googleUser.getBasicProfile();
+  console.log('ID: ' + profile.getId()); 
+  console.log('Name: ' + profile.getName());
+  console.log('Image URL: ' + profile.getImageUrl());
+  console.log('Email: ' + profile.getEmail());
+  $.post("header.php", {"username":profile.getId(), "name":profile.getName(), "email": profile.getEmail()});
+}
 </script>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
