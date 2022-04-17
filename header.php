@@ -284,7 +284,7 @@ while($rows=$result000->fetch_assoc())
     <div class="dropdown-content">
       <a href="upload.php">New Job</a>
       <a href="jobs.php?title=">View Jobs</a>
-      <a href="jobsaccount.php">Account</a>
+      <a href="Jobsaccount.php?url=">Account</a>
     </div>
 </div>
 <div id="myInput">

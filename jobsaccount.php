@@ -36,6 +36,55 @@ session_start();
 			}
 			mysqli_stmt_close($stmt);
 		}
+		if(isset($_POST["delete"])) 
+	{
+		$passwordn = trim($_POST["password"]);
+		$sql0 = 'SELECT password FROM users WHERE id=?';
+			
+			if($stmt = mysqli_prepare($link, $sql0))
+			{
+				mysqli_stmt_bind_param($stmt, 's', $param_id);
+					
+					$param_id = $_SESSION["id"];
+				if(mysqli_stmt_execute($stmt)){
+					mysqli_stmt_store_result($stmt);
+					mysqli_stmt_bind_result($stmt, $password);
+					if(mysqli_stmt_fetch($stmt)){
+						$hash = password_hash($password, PASSWORD_DEFAULT);
+						if(password_verify($passwordn, $hash))
+						{
+							 $sql = 'DELETE FROM users WHERE id='.$_SESSION["id"].'';
+							 $execute = $link->query($sql);
+							    if (!$execute) {
+									 echo '<div class="alert_fail">
+										  <span class="closebtn" onclick="close_alert(this.parentElement)">&times;</span>
+										 Failed to delete account
+										</div>';
+									
+								} else {
+									$email = $_SESSION["email"];
+									$subject = 'ACCOUNT DELETED ';
+									$message = 'This is to inform you that your account at myJOBS was successfully deleted';
+									$header = "MyJobs Network\r\n";
+									$ret = mail($email,$subject,$message,$header);
+									if($ret){
+										header("refresh: 1;url=register.php");
+									}
+								    
+						        }
+								
+						}else{
+							echo '<div class="alert_fail">
+							  <span class="closebtn" onclick="close_alert(this.parentElement)">&times;</span>
+							 Invalid Password
+							</div>';
+						}
+					}
+				}
+				mysqli_stmt_close($stmt);
+			}
+
+	}
 ?>
 <head>
 <meta charset="utf-8">
@@ -241,6 +290,21 @@ function close_alert(x){
 <div>
 
 <div id="mydropdown" class="dropup-content">
+<?php 
+ require_once "database.php"; 
+$counter = 0;
+$msg = $idm = '';
+$sql000 = 'SELECT * FROM messages where id='.$_SESSION["id"].' ORDER BY time DESC';
+$result000 = $link->query($sql000);
+
+while($rows=$result000->fetch_assoc())
+{
+		
+		$msg = $rows["message"];
+		$no = $rows["no"];
+		if($rows["is_read"] == 0){ $counter++;}
+}
+?>
 <a href='userprofile.php'>PROFILE</a>
 <a href="message.php?msgn=Select message in the table to preview&non=1">INBOX<p style="width: 27%;text-align: center;float: right;margin-top: -2%;border-radius: 50%;background-color: green;"><?php echo$counter;?></p></a>
 <a href="javascript:void(0)" onclick="logout()">LOG OUT</a>

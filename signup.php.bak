@@ -311,7 +311,6 @@ h2:after {
 <div class="client-form" >
 <form method="POST">
 <h2>Client Registration form</h2>
-<p style="float: right;cursor: pointer;color:red;margin-top: -7%;"><a style="zoom: 150%;"onclick="exit()">&times</a></p>
 <center><button type="button" class="btn-opt-google" type="button"><i class="fa fa-google"></i>Continue with Google</button><br>
 <button type="button" class="btn-opt-apple" type="button"><i class="fa fa-apple"></i>Continue with Apple</button><br></center>
 <hr/>

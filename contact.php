@@ -289,7 +289,6 @@
   width: 100%; /* Full width */
   height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
-  background-color: #474e5d;
   padding-top: 50px;
 }
 
@@ -413,6 +412,24 @@ hr {
 	background: white;
 	color: green;
 }
+.cancelbtn, .deletebtn {
+  float: left;
+  width: 50%;
+}
+
+.cancelbtn {
+  background-color: #ccc;
+  color: black;
+}
+
+.deletebtn {
+  background-color: #f44336;
+}
+
+.container {
+  padding: 16px;
+  text-align: center;
+}
 
 </style>
 
@@ -468,7 +485,7 @@ while($rows=$result->fetch_assoc())
 <button type="button" class="button_submit" onclick="document.getElementById('enterpassedit').style.display = 'block'" >Update</button>
 <p style="color: green;font-size: 18px;margin-left: 45%;margin-top: -5%;"><a onclick="close_edit('make_edit')">Cancel</a></p>
 </div>
-<p style="float: right;margin-right: 2%;color: green;font-size: 18px;"><a >Close Account</a></p>
+<p style="float: right;margin-right: 2%;color: green;font-size: 18px;"><a onclick="document.getElementById('id01').style.display='block'">Close Account</a></p>
 </div>
 <div class="additional_accounts">
 <h2>Additional Accounts</h2>
@@ -518,6 +535,29 @@ Company name<br><input type="text" name="company-name" style="padding: 1.5% 12%;
 	</div>
 </div>
 </form>
+<div id="id01" class="modal">
+  <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close">&times;</span>
+    <div class="container">
+      <h1>Delete Account</h1>
+      <p>Are you sure you want to delete your account?</p>
+
+      <div class="clearfix">
+	  <button type="button" class="deletebtn" onclick="document.getElementById('enterpass').style.display = 'block'" style="padding: 14px 20px;margin-left: 20%;border: none;cursor: pointer;width: 70%;opacity: 0.9;">Delete</button>
+        <button type="button" class="cancelbtn" onclick="document.getElementById('id01').style.display='none'" style="padding: 14px 20px;margin-left: 20%;border: none;cursor: pointer;width: 70%;opacity: 0.9;">Cancel</button>
+      </div>
+    </div>
+  
+</div>
+<div id="enterpass" class="modal">
+<form class="modal-content" method="POST" action="">
+  <div class="enter-popup">
+	<h1>Enter Password</h1><br>
+    <input type="password" placeholder="Enter Password" name="password" required><br>
+	<button type="submit" class="bnt" name="delete">Delete</button>
+    <button type="button" class="bnt cancel" onclick="document.getElementById('enterpass').style.display='none'">Close</button>
+	</div>
+</form>
+</div>
 </div>
 <script>
 function edit(){

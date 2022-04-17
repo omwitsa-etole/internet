@@ -24,7 +24,8 @@ if(isset($_POST["send_code"]))
 				$vcode = $verify_code;
 				$subject = 'PASSWORD REQUEST FOR myJOBS ACCOUNT ';
 				$message = 'Please use the code below to login to your account 
-				 Code: '.$verify_code.'';
+				
+							Code: '.$verify_code.'';
 				$header = "MyJobs Network\r\n";
 
 				$retval = mail($email,$subject,$message,$header);
