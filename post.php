@@ -142,7 +142,7 @@ if(isset($_POST["dislike"]))
 }
 </style>
 <div class="col-container">
-<input type="button" onclick="history.back()" value="x" style="position: absolute;right: 10%;color: red;border: none;">
+<a onclick="history.back()" style="position: absolute;right: 10%;color: red;border: none;">&times</a>
 <div class="col left">
   <div class="centered">
   <?php echo $post;

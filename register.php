@@ -156,12 +156,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 	margin-top: 2.5%;
 	font-size: 17px;
 }
-.btn-sign{
-	padding: 3% 20%;
-	border-radius: 12px;
-	background: green;
+.btn-opt-google{
+	margin-top: 2%;
+	background: #00BFFF;
 	color: white;
-	margin-bottom: 1%;
+	text-align: center;
+	padding: 2% 12%;
+	border-radius: 15px;
+	margin-left: 4%;
+	text-align: justify;
 }
 .btn-opt-apple {
 	margin-top: 4%;
@@ -201,7 +204,7 @@ PASSWORD:<br><input type="password" placeholder="enter password" name="password"
 <button type="submit" class="btn-sign">SIGN IN</button><br>
 <hr/>
 <div  data-onsuccess="onSignIn"></div>
-<div class="g-signin2" data-width="350" data-height="60" data-longtitle="true"></div><br>
+<button class="btn-opt-google" type="button"><i class="fa fa-google"></i>Continue with Google</button><br>
 <button class="btn-opt-apple" type="button"><i class="fa fa-apple"></i>Continue with Apple</button><br>
 <hr/>
 <div class="bottom">DONT HAVE AN ACCOUNT? <br><a href="signup.php"><button type="button">Sign up</button></a></div><br>
