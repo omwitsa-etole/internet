@@ -156,12 +156,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 	margin-top: 2.5%;
 	font-size: 17px;
 }
-.btn-sign{
-	padding: 3% 20%;
-	border-radius: 12px;
-	background: green;
+.btn-opt-google{
+	margin-top: 2%;
+	background: #00BFFF;
 	color: white;
-	margin-bottom: 1%;
+	text-align: center;
+	padding: 2% 12%;
+	border-radius: 15px;
+	margin-left: 4%;
+	text-align: justify;
 }
 .btn-opt-apple {
 	margin-top: 4%;
