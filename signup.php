@@ -309,7 +309,7 @@ h2:after {
 <option value="Ethopia">Ethopia</option>
 <option value="Sudan">Sudan</option>
 </datalist>
-<input type="checkbox" onchange="uncheck()">I accept the terms and conditions<br>
+<input type="checkbox" onchange="uncheck()">I accept the <a href="terms.html">terms and conditions</a> and <a href="privacy.html">privacy policy</a><br>
 <center><button type="submit" name="create-client" class="submit-reg" title="Submit details" disabled>Create My account</button><br>
 <a onclick="exit()" style="color: green;font-size: 17px;cursor: pointer;font-weight: bold;margin-top: -4%;" title="Close form">Cancel</a></center>
 </form>
@@ -342,7 +342,7 @@ h2:after {
 <option value="Ethopia">Ethopia</option>
 <option value="Sudan">Sudan</option>
 </datalist>
-<input type="checkbox" onchange="uncheck()">I accept the terms and conditions<br>
+<input type="checkbox" onchange="uncheck()">I accept the <a href="terms.html">terms and conditions</a> and <a href="privacy.html">privacy policy</a><br>
 <center><button type="submit" name="create-client" class="submit-reg" title="Submit details" disabled>Create My account</button><br>
 Already have an account? <a href="register.php" style="color: green;font-size: 17px;cursor: pointer;font-weight: bold;margin-top: -4%;">Login</a></center>
 </form>
