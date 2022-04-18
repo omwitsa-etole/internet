@@ -117,7 +117,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 									$_SESSION["name"] = $name;
 									$_SESSION["username"] = $username;
 									$_SESSION["id"] = $id;
-									echo 'success';
+									echo '<div class="alert_succ">
+									  <span class="closebtn" onclick="close_alert(this.parentElement)">&times;</span>
+									  Account Created Succesfully
+									</div>';
 									header("refresh:1;url=index.php");
 									
 								}else{ $password_err = 'invalid password';}
@@ -150,14 +153,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 .login {
-	width: 40%;
-	height: 90%;
+	width: 45%;
+	height: 85%;
 	box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
-	margin-top: 2.5%;
+	margin-top: 1%;
 	font-size: 17px;
 }
-.btn-signin{
-	
+.btn-sign{
+	padding: 3% 17%;
+	background: green;
+	color: white;
+	border-radius: 15px;
 }
 .btn-opt-google{
 	margin-top: 2%;
@@ -188,6 +194,22 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 	border-radius: 15px;
 	margin-top: 2%;
 }
+.login span{
+	color: red;
+	font-size: 17px;
+	font-weight: bold;
+}
+.alert_succ {
+  padding: 20px;
+  background-color: green; 
+  color: white;
+  width: 65%;
+  position: fixed;
+  top: 1%;
+  left: 15%;
+  z-index: 2;
+  
+}
 </style>
 </head>
 <body>
@@ -198,10 +220,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 <center>
 <div class="login">
 <form method="post" action="">
-<center>EMAIL:<br><input type="text" placeholder="enter email/username/phone" name="email" style="padding: 1.5% 9%; border: line;"><br>
-<span ><?php echo $email_err?></span><br><br>
-PASSWORD:<br><input type="password" placeholder="enter password" name="password" id="password" value="<?php $password;?>" style="padding: 1.5% 9%; border: line;"><br><br>
-<span ><?php echo $password_err?></span>
+<center>EMAIL:<br><input type="text" placeholder="enter email/username/phone" name="email" value="<?php echo $username;?>" style="padding: 1.5% 7%; border: line;"><br>
+<span ><?php echo $email_err?></span><br>
+PASSWORD:<br><input type="password" placeholder="enter password" name="password" id="password" style="padding: 1.5% 7%; border: line;"><br>
+<span ><?php echo $password_err?></span><br>
 <input type="checkbox" onchange="showpass()">show password<br>
 <a href="forgotpass.php">forgot password?</a><br><br>
 <button type="submit" class="btn-sign">SIGN IN</button><br>
@@ -228,6 +250,9 @@ function onSignIn(googleUser) {
   console.log('Image URL: ' + profile.getImageUrl());
   console.log('Email: ' + profile.getEmail());
   $.post("header.php", {"username":profile.getId(), "name":profile.getName(), "email": profile.getEmail()});
+}
+function close_alert(x){
+	x.style.display='none';
 }
 </script>
 <script src="https://apis.google.com/js/platform.js" async defer></script>

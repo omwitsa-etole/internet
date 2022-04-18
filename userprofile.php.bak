@@ -113,7 +113,7 @@ if(isset($_POST["background"]))
 <div class="profile-table">
 <h1>Profile</h1>
 <img src="avatar.jpg">
-<button class="h-btn" onclick="window.location='jobsaccount.php?url=profile'">Profile Settings</button>
+<button class="h-btn">Profile Settings</button>
 <br>
 <hr/>
 <div class="l-profile">

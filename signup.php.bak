@@ -1,36 +1,55 @@
 <?php 
 require_once "database.php";
 
-$success = $email = $password = $confirmpassword = $firstname = $lastname = $name = $gender = $phone = $date = '';
+$success = $username = $email = $password = $confirmpassword = $firstname = $lastname = $name = $gender = $phone = $date = '';
 $email_err = $password_err = $p_err =  $phone_err =  $username_err = $fname_err = $gender_err = $date_err = $name_err ='';
 
-if($_SERVER["REQUEST_METHOD"] == "POST")
+if(isset($_POST["create-client"]))
 {
 	if(empty(trim($_POST["firstname"]))){
-		$fname_err = "enter firstname";
+		$name_err = 'error';
+		echo '<div class="alert_fail">
+			  <span class="closebtn" onclick="close_alert(this.parentElement)">&times;</span>
+			  Enter first name
+			</div>';
 	}else{ $firstname = trim($_POST["firstname"]);}
 	
 	if(empty(trim($_POST["lastname"]))){
-		$fname_err = "enter lastname";
+		$name_err = 'error';
+		echo '<div class="alert_fail">
+			  <span class="closebtn" onclick="close_alert(this.parentElement)">&times;</span>
+			  Enter last name
+			</div>';
 	}else{ $lastname = trim($_POST["lastname"]);}
 	
 	if(empty($fname_err)){ $name = ''.$firstname .'	'. $lastname.'';}else{ $name_err = "name error";}
 	if(empty(trim($_POST["email"]))){
-		$email_err = "enter email";
+		$email_err = 'error';
+		echo '<div class="alert_fail">
+			  <span class="closebtn" onclick="close_alert(this.parentElement)">&times;</span>
+			  Enter Email
+			</div>';
 	}else{ $email = trim($_POST["email"]);}
 	
 	if(empty(trim($_POST["username"]))){
-		$username_err = "enter username";
+		$username_err = 'error';
+		echo '<div class="alert_fail">
+			  <span class="closebtn" onclick="close_alert(this.parentElement)">&times;</span>
+			  Enter username
+			</div>';
 	}else{ $username = trim($_POST["username"]);}
 	
 	if(empty(trim($_POST["password"]))){
-        $password_err = "Please enter a password.";     
+		$password_err = 'error'; 
+        echo '<div class="alert_fail">
+			  <span class="closebtn" onclick="close_alert(this.parentElement)">&times;</span>
+			  Enter a password
+			</div>';   
     } else if(strlen(trim($_POST["password"])) < 6){
         $password_err = "Password must have atleast 6 characters.";
     } else{
         $password = trim($_POST["password"]);
     }
-	
 	$all_err = $email_err || $password_err || $username_err || $name_err;
 if(empty($all_err))
 { 
@@ -87,8 +106,7 @@ if(empty($all_err))
 			mysqli_stmt_close($stmt);
 	}
 	mysqli_close($link);
-
-}	
+}
 }
 ?>
 <head>
@@ -147,7 +165,7 @@ if(empty($all_err))
 	background: white;
 }
 .client-form input{
-	padding: 2% 9%;
+	padding: 2% 7%;
 	margin-top: 1.5%;
 	text-align: left;
 	
@@ -162,7 +180,7 @@ if(empty($all_err))
 	background: white;
 }
 .freelance-form input{
-	padding: 2% 9%;
+	padding: 2% 7%;
 	margin-top: 1.5%;
 	text-align: left;
 	
@@ -243,8 +261,10 @@ h2:after {
   background-color: #f44336; 
   color: white;
   width: 65%;
-  margin-top: 1%;
-  margin-left: 15%;
+  position: fixed;
+  top: 1%;
+  left: 15%;
+  z-index: 2;
 }
 
 .alert_succ {
@@ -252,8 +272,11 @@ h2:after {
   background-color: green; 
   color: white;
   width: 65%;
-  margin-top: 1%;
-  margin-left: 15%;
+  position: fixed;
+  top: 1%;
+  left: 15%;
+  z-index: 2;
+  
 }
 .closebtn {
   margin-left: 15px;
@@ -277,7 +300,9 @@ h2:after {
 <h3>My Jobs</h3>
 </div>
 <hr/>
-<center><div class="box-1" id="box">
+<center>
+<span><?php echo $password_err; ?></span>
+<div class="box-1" id="box">
 <h1>Join as a Client or Freelancer</h1>
 <button class="check-button" name="client" onclick="changecheck(this.name)"><p><input id="client" type="radio" name="join-option" value="Join as Client"></p><span><i class="fa fa-file" aria-hidden="true"></i><br>I’m a client, hiring for a project</span></button>
 <button class="check-button" name="freelancer" onclick="changecheck(this.name)"><p><input id="freelancer" type="radio" name="join-option" value="Applly as Freelancer"></p><span><i class="fa fa-file-text-o" aria-hidden="true"></i><br>I’m a freelancer, looking for work</span></button><br>
@@ -286,14 +311,22 @@ h2:after {
 </div></center>
 <div id="clientform" style="display: none;position: fixed;z-index: 1;width: 100%;height: 100%;top: 5%;left: 15%;">
 <div class="client-form" >
-<form method="POST">
+<form method="POST" action="" enctype="multipart/form-data">
 <h2>Client Registration form</h2>
 <p style="float: right;cursor: pointer;color:red;margin-top: -7%;"><a style="zoom: 150%;"onclick="exit()">&times</a></p>
 <center><button class="btn-opt-google" type="button"><i class="fa fa-google"></i>Continue with Google</button><br>
 <button type="button" class="btn-opt-apple" type="button"><i class="fa fa-apple"></i>Continue with Apple</button><br></center>
 <hr/>
 <input type="text" placeholder="First name" name="firstname"> <input type="text" name="lastname" placeholder="Last name"><br>
-<input type="text" placeholder="Email" name="email">
+<input type="text" placeholder="Email" name="email"><input type="text" name="username" placeholder="Username"><br>
+<input list="country" name="country" placeholder="Country">
+<datalist id="country" >
+<option value="Kenya">Kenya</option>
+<option value="Uganda">Uganda</option>
+<option value="Tanzania">Tanzania</option>
+<option value="Ethopia">Ethopia</option>
+<option value="Sudan">Sudan</option>
+</datalist>
 <input type="text" placeholder="Password" name="password"><a style="zoom: 100%;position: relative;cursor: pointer;" onclick="document.getElementById('myPopup').style.display='block'" class="fa fa-question" aria-hidden="true"></a>
 <div class="popuptext" id="myPopup">
 <a style="float: right;cursor: pointer;" onclick="document.getElementById('myPopup').style.display='none'">&times</a>
@@ -302,7 +335,23 @@ h2:after {
 <li>Use a password that you will easily remember</li>
 </ul>
 </div>
-<br>
+
+<br><input type="checkbox" onchange="uncheck()">I accept the <a href="terms.html">terms and conditions</a> and <a href="privacy.html">privacy policy</a><br>
+<center><button type="submit" name="create-client" class="submit-reg" title="Submit details" >Create My account</button><br>
+<a onclick="exit()" style="color: green;font-size: 17px;cursor: pointer;font-weight: bold;margin-top: -4%;" title="Close form">Cancel</a></center>
+</form>
+</div>
+</div>
+<div id="freelanceform" style="display: none;position: fixed;z-index: 1;width: 100%;height: 100%;top: 5%;left: 15%;">
+<div class="freelance-form" >
+<form method="POST" action="">
+<h2>Freelance Registration form</h2>
+<p style="float: right;cursor: pointer;color:red;margin-top: -7%;"><a style="zoom: 150%;"onclick="exit()">&times</a></p>
+<center><button class="btn-opt-google" type="button"><i class="fa fa-google"></i>Continue with Google</button><br>
+<button type="button" class="btn-opt-apple" type="button"><i class="fa fa-apple"></i>Continue with Apple</button><br></center>
+<hr/>
+<input type="text" placeholder="First name" name="firstname"> <input type="text" name="lastname" placeholder="Last name"><br>
+<input type="text" placeholder="Email" name="email"><input type="text" name="username" placeholder="Username"><br>
 <input list="country" name="country" placeholder="Country">
 <datalist id="country" >
 <option value="Kenya">Kenya</option>
@@ -311,22 +360,6 @@ h2:after {
 <option value="Ethopia">Ethopia</option>
 <option value="Sudan">Sudan</option>
 </datalist>
-<input type="checkbox" onchange="uncheck()">I accept the <a href="terms.html">terms and conditions</a> and <a href="privacy.html">privacy policy</a><br>
-<center><button type="submit" name="create-client" class="submit-reg" title="Submit details" disabled>Create My account</button><br>
-<a onclick="exit()" style="color: green;font-size: 17px;cursor: pointer;font-weight: bold;margin-top: -4%;" title="Close form">Cancel</a></center>
-</form>
-</div>
-</div>
-<div id="freelanceform" style="display: none;position: fixed;z-index: 1;width: 100%;height: 100%;top: 5%;left: 15%;">
-<div class="freelance-form" >
-<form method="POST">
-<h2>Freelance Registration form</h2>
-<p style="float: right;cursor: pointer;color:red;margin-top: -7%;"><a style="zoom: 150%;"onclick="exit()">&times</a></p>
-<center><button class="btn-opt-google" type="button"><i class="fa fa-google"></i>Continue with Google</button><br>
-<button type="button" class="btn-opt-apple" type="button"><i class="fa fa-apple"></i>Continue with Apple</button><br></center>
-<hr/>
-<input type="text" placeholder="First name" name="firstname"> <input type="text" name="lastname" placeholder="Last name"><br>
-<input type="text" placeholder="Email" name="email">
 <input type="text" placeholder="Password" name="password"><a style="zoom: 100%;position: relative;cursor: pointer;" onclick="document.getElementById('myPopup2').style.display='block'" class="fa fa-question" aria-hidden="true"></a>
 <div class="popuptext" id="myPopup2">
 <a style="float: right;cursor: pointer;" onclick="document.getElementById('myPopup2').style.display='none'">&times</a>
@@ -335,16 +368,7 @@ h2:after {
 <li>Use a password that you will easily remember</li>
 </ul>
 </div>
-<br>
-<input list="country" name="country" placeholder="Country">
-<datalist id="country" >
-<option value="Kenya">Kenya</option>
-<option value="Uganda">Uganda</option>
-<option value="Tanzania">Tanzania</option>
-<option value="Ethopia">Ethopia</option>
-<option value="Sudan">Sudan</option>
-</datalist>
-<input type="checkbox" onchange="uncheck()">I accept the <a href="terms.html">terms and conditions</a> and <a href="privacy.html">privacy policy</a><br>
+<br><input type="checkbox" onchange="uncheck()">I accept the <a href="terms.html">terms and conditions</a> and <a href="privacy.html">privacy policy</a><br>
 <center><button type="submit" name="create-client" class="submit-reg" title="Submit details" disabled>Create My account</button><br>
 Already have an account? <a href="register.php" style="color: green;font-size: 17px;cursor: pointer;font-weight: bold;margin-top: -4%;">Login</a></center>
 </form>

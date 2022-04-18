@@ -240,7 +240,7 @@ function showoption() {
   if(x.style.display == "none"){ x.style.display = "block"; }else{ x.style.display = "none"; }
 }
 </script>
-<body id="body" oncontextmenu="">
+<body id="body" oncontextmenu="" style="overflow-x: hidden;">
 <?php 
  require_once "database.php"; 
 $counter = 0;
