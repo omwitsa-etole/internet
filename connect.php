@@ -1,14 +1,11 @@
 <?php include "header.php";?>
 <style>
 #myInput4 {
-  background-image: url('/css/searchicon.jpg'); /* Add a search icon to input */
-  background-position: 10px 12px; /* Position the search icon */
-  background-repeat: no-repeat; /* Do not repeat the icon image */
-  width: 60%; /* Full-width */
-  font-size: 16px; /* Increase font-size */
-  padding: 12px 20px 12px 170px; /* Add some padding */
-  border: 1px solid #ddd; /* Add a grey border */
-  margin-bottom: 15px; /* Add some space below the input */
+  width: 60%; 
+  font-size: 16px; 
+  padding: 12px 20px 12px 170px; 
+  border: 1px solid #ddd; 
+  margin-bottom: 15px; 
   margin-left: 30px;
   margin-top: 10%;
 }
@@ -17,12 +14,12 @@
 	cursor: pointer;
 	border-collapse: collapse;	
   display: block; 
-  left: 19%;
+  left: 25%;
   top: 5%;
-  width: 50%;
+  width: 40%;
   height: 95%;
-  overflow: auto; /* Enable scroll if needed */
-  background-color: #ddd; /* Fallback color */
+  overflow: auto; 
+  background-color: #ddd; 
   background-color: rgba(0,0,0,0.4);
 }
 
@@ -54,11 +51,12 @@
 	
 	while($row = $users->fetch_assoc())
 	{
+		$prof_uri = 'profile.php?idn='.$row["id"].'&postnamep='.$row["name"].'&postusernamep='.$row["username"].'';
 ?>
 	<tr>
-	<td onclick="window.location='viewprofile.php?idn=<?php echo $row["id"];?>&postname=<?php echo $row["name"];?>&uname=<?php echo $row["username"];?>'">
+	<td onclick="window.location='<?php echo $prof_uri;?>'">
 	<div class="profilebox">
-	<img src="<?php echo 'profile/'.$row["profile"].'';?>" alt="profile" style="border-radius: 50%;width: 30%;height: 80px;margin-left: -15%;margin-top:;">
+	<img src="<?php echo ''.$row["profile"].'';?>" alt="profile" style="border-radius: 50%;width: 30%;height: 80px;margin-left: -15%;margin-top:;">
 	<div id="details" style="margin-top: -20%;">
 	<p><?php echo ''.$row["name"].'';?></p>
 	<p><?php echo '@'.$row["username"].'';?></p>

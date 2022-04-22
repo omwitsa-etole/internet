@@ -2,7 +2,7 @@
 <?php 
 session_start();
  if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true){
-		header("location: register.php");
+		header('location: register.php?next=' . urlencode($_SERVER['REQUEST_URI']));
 		die();
 	}
 	 require_once "database.php";
@@ -10,33 +10,25 @@ session_start();
 	$username = $_SESSION["username"];
 	$id = $_SESSION["id"];
 	
-	$sql = 'SELECT email, phone, username, birthdate, gender, profile, background, mode FROM users where id ='.$id.'';
-		
-		if($stmt = mysqli_prepare($link, $sql))
-		{
-			
-			if(mysqli_stmt_execute($stmt))
-			{
-				mysqli_stmt_store_result($stmt);
-				
-				if(mysqli_stmt_num_rows($stmt) == 1)
-				{
-					mysqli_stmt_bind_result($stmt, $email, $phone, $username,  $birthdate, $gender, $profile, $background, $mode);
-					if(mysqli_stmt_fetch($stmt))
-					{
-					$_SESSION["username"] = $username;
-					$_SESSION["email"] = $email;
-					$_SESSION["phone"] = $phone;
-					$_SESSION["birthdate"] = $birthdate;
-					$_SESSION["gender"] = $gender;
-					$_SESSION["profile"] = $profile;
-					$_SESSION["background"] = $background;
-					$_SESSION["mode"] = $mode;
-					}
-				}
+		$sql = 'SELECT * FROM users WHERE id='.$_SESSION["id"].'';
+		$retval = $link->query($sql);
+		if($retval->num_rows > 0){
+			while($row = $retval->fetch_assoc()){
+				$dir= $row["profile"];
+				$title = $row["title"];
+				$about = $row["about"];
+				$rate = $row["rate"];
+				$phone = $row["phone"];
+				$gender = $row["gender"];
+				$profile = $row["profile"];
+				$mode = $row["mode"];
+				$background = $row["background"];
+				$facebook = $row["facebook"];
+				$twitter = $row["twitter"];
+				$linkedin = $row["linkedin"];
 			}
-			mysqli_stmt_close($stmt);
 		}
+		
 		
 		function timeAgo($time){
 		$time_ago = strtotime($time);
@@ -295,7 +287,7 @@ while($rows=$result000->fetch_assoc())
 
 </div>
 <div class="profileh">
-  <a href="userprofile.php"><img src="avatar.jpg" alt="<?php echo $name;?>" style="width:100%;"></a>
+  <a href="userprofile.php"><img src="<?php  echo $dir;?>" alt="<?php echo $name;?>" style="width:90%;height: 200px;"></a>
   <h1><?php echo $name;?></h1>
   <p><?php echo '<a url="#'.$name.'">@'.$username.'</a>';?></p>
   <p class="title">Proffession</p>
@@ -321,9 +313,9 @@ while($rows=$result000->fetch_assoc())
 	}
 	 ?> 
   <p>Connections: <?php echo $counter + $counter2;?> </p>
-  <a href="#"><i class="fa fa-twitter"></i></a>
-  <a href="#"><i class="fa fa-linkedin"></i></a>
-  <a href="#"><i class="fa fa-facebook"></i></a>
+  <a href="<?php echo $twitter;?>" target="_blank"><i class="fa fa-twitter"></i></a>
+  <a href="<?php echo $linkedin;?>" target="_blank"><i class="fa fa-linkedin"></i></a>
+  <a href="<?php echo $facebook;?>" target="_blank"><i class="fa fa-facebook"></i></a>
   <p><a href="connect.php"><button>Connect</button></a></p>
 </div>
   

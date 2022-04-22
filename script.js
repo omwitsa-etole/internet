@@ -11,9 +11,8 @@ window.onclick = function(event) {
   }
 }
 window.scroll(function() {
-	if($(window).scrollTop() > 100)
-		sessionStorage.scrollPos = $(window).scrollTop();
-		
+	if(window.scrollTop() > 100)
+		sessionStorage.scrollPos = window.scrollTop();
 });
 var init = setTimeout(function (){
 	if(sessionStorage.scrollPos > 100){
@@ -28,7 +27,7 @@ function scrollFunction() {
 	document.getElementById("backtop").style.display = "block";}
 	else { document.getElementById("backtop").style.display = "none";}
 }
-function backtop(){ document.body.scrollTop = 0;}
+function backtop(){ window.scrollTop() = 0;}
 function logout()
 {
     var auth2 = gapi.auth2.getAuthInstance();

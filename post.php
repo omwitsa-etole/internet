@@ -63,12 +63,14 @@ if(isset($_POST["dislike"]))
 ?>
 <style>
 .col-container {
+  position: absolute;
   display: table; 
   width: 70%; 
-  min-height: 50%;
-  margin-left: 20%;
+  min-height: 400px;
+  margin-left: 25%;
   margin-top: 10%;
- box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  background: white;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
 }
 .col {
   display: table-cell; 
@@ -140,9 +142,14 @@ if(isset($_POST["dislike"]))
   resize: none;
   min-height: 100px;
 }
+.comm{
+	margin-top: -10%;
+	margin-left: 12%;
+}
 </style>
+<div>
 <div class="col-container">
-<a onclick="history.back()" style="position: absolute;right: 10%;color: red;border: none;">&times</a>
+<a onclick="history.go(-1)" style="color: red;float: right;zoom: 200%;">&times</a>
 <div class="col left">
   <div class="centered">
   <?php echo $post;
@@ -160,8 +167,7 @@ if(isset($_POST["dislike"]))
 <?php echo $dislikes;?><button type="submit" name="dislike" id="dislike" onclick="myFunction2(this)" class="fa fa-thumbs-down"></button>
 <input type="text" name="likes" value="<?php echo $likes+1;?>" style="display:none;">
 <input type="text" name="dislikes" value="<?php echo $dislikes+1;?>" style="display:none;">
-<button type="button" class="fa fa-message"  onclick="openForm()"></button>
-<button type="button" class="fa fa-share"></button>
+<button type="button" class="fa fa-envelope"  onclick="openForm()"></button>
 </form>
 </div>
 </div>
@@ -176,6 +182,7 @@ if(isset($_POST["dislike"]))
 </div>
 </div>
 <div class="centered">
+Comments:<hr/>
 <?php 
  require_once "database.php"; 
 $counter = 0;
@@ -189,16 +196,14 @@ while($rows=$result->fetch_assoc())
 	$idp = $rows["id"];
 	$sql1 = 'SELECT * FROM users where id = '.$idp.'';
 	$result1 = $link->query($sql1);
-	while($row=$result1->fetch_assoc())
-		
-{
+	while($row=$result1->fetch_assoc()){
+		$prof_uri = 'profile.php?idn='.$row["id"].'&postnamep='.$row["name"].'&postusernamep='.$row["username"].'';
 ?>
-    Comments:<br>
 <div>
-<img src="profile/<?php echo $row["profile"];?>" alt="Avatar" style="border-radius: 50%; width: 10%;height:7%;"><p class="comm"><?php echo '<i>'.$row['name'].'</i>';?>
-<?php echo '<i>  @'.$rows['username'].'</i>';?></p>
-<p style="color: black"><?php echo $rows['comment'];?></p>
-<span class="time-right"><?php
+<img src="<?php echo $row["profile"];?>" alt="Avatar" style="border-radius: 50%; width: 10%;height:5%;"><p class="comm"><?php echo '<i>'.$row['name'].'</i>';?>
+<a href='<?php echo $prof_uri;?>'><?php echo '<i>  @'.$rows['username'].'</i>';?></a></p>
+<p style="margin-left: 2%;margin-top: 5%;"><?php echo $rows['comment'];?></p>
+<span style="float: right;"><?php
 	$time = $rows["time"];
 	echo $time_elapsed = timeAgo($time);
   ?></span>
@@ -212,7 +217,7 @@ while($rows=$result->fetch_assoc())
 
 </div>
 </div>
-
+</div>
 <script>
 
 function openForm() {

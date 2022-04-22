@@ -1,113 +1,5 @@
-<?php 
+<?php session_start();
 require_once "database.php";
-
-$success = $username = $email = $password = $confirmpassword = $firstname = $lastname = $name = $gender = $phone = $date = '';
-$email_err = $password_err = $p_err =  $phone_err =  $username_err = $fname_err = $gender_err = $date_err = $name_err ='';
-
-if(isset($_POST["create-client"]))
-{
-	if(empty(trim($_POST["firstname"]))){
-		$name_err = 'error';
-		echo '<div class="alert_fail">
-			  <span class="closebtn" onclick="close_alert(this.parentElement)">&times;</span>
-			  Enter first name
-			</div>';
-	}else{ $firstname = trim($_POST["firstname"]);}
-	
-	if(empty(trim($_POST["lastname"]))){
-		$name_err = 'error';
-		echo '<div class="alert_fail">
-			  <span class="closebtn" onclick="close_alert(this.parentElement)">&times;</span>
-			  Enter last name
-			</div>';
-	}else{ $lastname = trim($_POST["lastname"]);}
-	
-	if(empty($fname_err)){ $name = ''.$firstname .'	'. $lastname.'';}else{ $name_err = "name error";}
-	if(empty(trim($_POST["email"]))){
-		$email_err = 'error';
-		echo '<div class="alert_fail">
-			  <span class="closebtn" onclick="close_alert(this.parentElement)">&times;</span>
-			  Enter Email
-			</div>';
-	}else{ $email = trim($_POST["email"]);}
-	
-	if(empty(trim($_POST["username"]))){
-		$username_err = 'error';
-		echo '<div class="alert_fail">
-			  <span class="closebtn" onclick="close_alert(this.parentElement)">&times;</span>
-			  Enter username
-			</div>';
-	}else{ $username = trim($_POST["username"]);}
-	
-	if(empty(trim($_POST["password"]))){
-		$password_err = 'error'; 
-        echo '<div class="alert_fail">
-			  <span class="closebtn" onclick="close_alert(this.parentElement)">&times;</span>
-			  Enter a password
-			</div>';   
-    } else if(strlen(trim($_POST["password"])) < 6){
-        $password_err = "Password must have atleast 6 characters.";
-    } else{
-        $password = trim($_POST["password"]);
-    }
-	$all_err = $email_err || $password_err || $username_err || $name_err;
-if(empty($all_err))
-{ 
-	$sql = "SELECT email, username FROM users WHERE email = ?";
-	
-	if($stmt = mysqli_prepare($link, $sql))
-	{
-		mysqli_stmt_bind_param($stmt, "s", $param_email);
-			$param_email = $email;
-			
-			if(mysqli_stmt_execute($stmt))
-			{
-				mysqli_stmt_store_result($stmt);
-				
-				if(mysqli_stmt_num_rows($stmt) == 1)
-				{
-					mysqli_stmt_bind_result($stmt, $email, $username);
-					if(mysqli_stmt_fetch($stmt))
-					{
-						if($email == trim($_POST["email"]) || $username == trim($_POST["username"])){
-							echo '<div class="alert_fail">
-								  <span class="closebtn" onclick="close_alert(this.parentElement)">&times;</span>
-								  User already exists
-								</div>';
-						}
-					}
-				}else{
-				$sql2 = 'INSERT INTO users (email, name, password, username) VALUES (?, ?, ?, ?)';
-				
-				if($stmt2 = mysqli_prepare($link, $sql2))
-				{
-					mysqli_stmt_bind_param($stmt2, "ssss", $param_email, $param_name, $param_password, $param_username);
-					
-					$param_email = $email;
-					$param_name = $name;
-					$param_password = $password;
-					$param_username = $username;
-					
-					if(mysqli_stmt_execute($stmt2)){
-						echo '<div class="alert_succ">
-							  <span class="closebtn" onclick="close_alert(this.parentElement)">&times;</span>
-							  Account Created Succesfully
-							</div>';
-					} else{
-						echo '<div class="alert_fail">
-							  <span class="closebtn" onclick="close_alert(this.parentElement)">&times;</span>
-							  Failed to create account
-							</div>';
-					}
-				}
-				mysqli_stmt_close($stmt2);
-				}
-			}
-			mysqli_stmt_close($stmt);
-	}
-	mysqli_close($link);
-}
-}
 ?>
 <head>
 <title>Sign up</title>
@@ -292,88 +184,108 @@ h2:after {
 .closebtn:hover {
   color: black;
 }
-
+.next-back{
+	position: fixed;
+	bottom: 4%;
+	width: 100%;
+	height: 15%;
+	background: white;
+}
+.back {
+	padding: 1% 5%;
+	background: #D3D3D3;
+	margin-left: 5%;
+	color: black;
+	border-radius: 7px;
+}
+.next {
+	padding: 1% 10%;
+	background: #228B22;
+	float: right;
+	margin-right: 5%;
+	color: white;
+	border-radius: 7px;
+}
+.addexp {
+	width: 40%;
+	height: 40%;
+	border-radius: 10px;
+	font-size: 17px;
+	background: white;
+	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+	cursor: pointer;
+}
+.addexp a{ cursor: pointer;margin-top: 5%;font-size: 20px;text-decoration: none; }
+.addexp a:hover{ text-decoration: underline; }
+.btn-save {
+	padding: 12px 20px;
+	border-radius: 6px;
+	background: green;
+	color: white;
+}
+.emp-1 {
+	padding: 2%;
+	width: 90%;
+	margin-left: 1%;
+}
+.emp-2 {
+	padding: 2% 9%;
+	margin-right: 2%;
+}
+.skill-opt {
+	display: none;
+	position: absolute;
+	min-height: 50px;
+	width: 250px;
+	z-index: 1;
+	overflow-y: auto;
+	background: white;
+	border-radius: 5px;
+	margin-left: 5%;
+	box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+.skill-opt a{ width: 100%; }
+.skill-opt a:hover{cursor:pointer;}
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body style="overflow-x: hidden;">
 <div style="color: green;font-size: 18px;font-weight: bold;font-family:Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif ;">
 <h3>My Jobs</h3>
 </div>
 <hr/>
-<center>
-<span><?php echo $password_err; ?></span>
-<div class="box-1" id="box">
-<h1>Join as a Client or Freelancer</h1>
-<button class="check-button" name="client" onclick="changecheck(this.name)"><p><input id="client" type="radio" name="join-option" value="Join as Client"></p><span><i class="fa fa-file" aria-hidden="true"></i><br>I’m a client, hiring for a project</span></button>
-<button class="check-button" name="freelancer" onclick="changecheck(this.name)"><p><input id="freelancer" type="radio" name="join-option" value="Applly as Freelancer"></p><span><i class="fa fa-file-text-o" aria-hidden="true"></i><br>I’m a freelancer, looking for work</span></button><br>
-<button class="sub-btn" type="button" onclick="generateform(this.innerHTML)" id="join-option">Create Account</button>
-<div style="color: black;font-size: 18px;margin-top: 3%;">Already have an account <a href="register.php" style="color: green;">Login</a></div>
-</div></center>
-<div id="clientform" style="display: none;position: fixed;z-index: 1;width: 100%;height: 100%;top: 5%;left: 15%;">
-<div class="client-form" >
-<form method="POST" action="" enctype="multipart/form-data">
-<h2>Client Registration form</h2>
-<p style="float: right;cursor: pointer;color:red;margin-top: -7%;"><a style="zoom: 150%;"onclick="exit()">&times</a></p>
-<center><button class="btn-opt-google" type="button"><i class="fa fa-google"></i>Continue with Google</button><br>
-<button type="button" class="btn-opt-apple" type="button"><i class="fa fa-apple"></i>Continue with Apple</button><br></center>
-<hr/>
-<input type="text" placeholder="First name" name="firstname"> <input type="text" name="lastname" placeholder="Last name"><br>
-<input type="text" placeholder="Email" name="email"><input type="text" name="username" placeholder="Username"><br>
-<input list="country" name="country" placeholder="Country">
-<datalist id="country" >
-<option value="Kenya">Kenya</option>
-<option value="Uganda">Uganda</option>
-<option value="Tanzania">Tanzania</option>
-<option value="Ethopia">Ethopia</option>
-<option value="Sudan">Sudan</option>
-</datalist>
-<input type="text" placeholder="Password" name="password"><a style="zoom: 100%;position: relative;cursor: pointer;" onclick="document.getElementById('myPopup').style.display='block'" class="fa fa-question" aria-hidden="true"></a>
-<div class="popuptext" id="myPopup">
-<a style="float: right;cursor: pointer;" onclick="document.getElementById('myPopup').style.display='none'">&times</a>
-<ul><li>Password Should contain atleast 6 characters</li>
-<li>Password should not be commonly used</li>
-<li>Use a password that you will easily remember</li>
-</ul>
-</div>
-
-<br><input type="checkbox" onchange="uncheck()">I accept the <a href="terms.html">terms and conditions</a> and <a href="privacy.html">privacy policy</a><br>
-<center><button type="submit" name="create-client" class="submit-reg" title="Submit details" >Create My account</button><br>
-<a onclick="exit()" style="color: green;font-size: 17px;cursor: pointer;font-weight: bold;margin-top: -4%;" title="Close form">Cancel</a></center>
-</form>
-</div>
-</div>
-<div id="freelanceform" style="display: none;position: fixed;z-index: 1;width: 100%;height: 100%;top: 5%;left: 15%;">
-<div class="freelance-form" >
-<form method="POST" action="">
-<h2>Freelance Registration form</h2>
-<p style="float: right;cursor: pointer;color:red;margin-top: -7%;"><a style="zoom: 150%;"onclick="exit()">&times</a></p>
-<center><button class="btn-opt-google" type="button"><i class="fa fa-google"></i>Continue with Google</button><br>
-<button type="button" class="btn-opt-apple" type="button"><i class="fa fa-apple"></i>Continue with Apple</button><br></center>
-<hr/>
-<input type="text" placeholder="First name" name="firstname"> <input type="text" name="lastname" placeholder="Last name"><br>
-<input type="text" placeholder="Email" name="email"><input type="text" name="username" placeholder="Username"><br>
-<input list="country" name="country" placeholder="Country">
-<datalist id="country" >
-<option value="Kenya">Kenya</option>
-<option value="Uganda">Uganda</option>
-<option value="Tanzania">Tanzania</option>
-<option value="Ethopia">Ethopia</option>
-<option value="Sudan">Sudan</option>
-</datalist>
-<input type="text" placeholder="Password" name="password"><a style="zoom: 100%;position: relative;cursor: pointer;" onclick="document.getElementById('myPopup2').style.display='block'" class="fa fa-question" aria-hidden="true"></a>
-<div class="popuptext" id="myPopup2">
-<a style="float: right;cursor: pointer;" onclick="document.getElementById('myPopup2').style.display='none'">&times</a>
-<ul><li>Password Should contain atleast 6 characters</li>
-<li>Password should not be commonly used</li>
-<li>Use a password that you will easily remember</li>
-</ul>
-</div>
-<br><input type="checkbox" onchange="uncheck()">I accept the <a href="terms.html">terms and conditions</a> and <a href="privacy.html">privacy policy</a><br>
-<center><button type="submit" name="create-client" class="submit-reg" title="Submit details" disabled>Create My account</button><br>
-Already have an account? <a href="register.php" style="color: green;font-size: 17px;cursor: pointer;font-weight: bold;margin-top: -4%;">Login</a></center>
-</form>
-</div>
-</div>
+<?php
+if(isset($_GET["step"])){
+	$step = trim($_GET["step"]);
+	if($step == "1"){
+		include "signup1.php";
+	}else if($step == "2"){
+		include "signup2.php";
+	}else if($step == "3"){
+		include "signup3.php";
+	}else if($step == "4"){
+		include "signup4.php";
+	}else if($step == "5"){
+		include "signup5.php";
+	}else if($step == "6"){
+		include "signup6.php";
+	}else if($step == "7"){
+		include "signup7.php";
+	}else if($step == "8"){
+		include "signup8.php";
+	}else if($step == "9"){
+		include "signup9.php";
+	}else if($step == "10"){
+		include "signup10.php";
+	}else if($step == "final"){
+		include "signup11.php";
+	}else if($step == "completed"){
+		include "signup12.php";
+	}else { include "signup1.php"; }
+}
+?>
+</body>
 <script>
 function myFunction() {
   var popup = document.getElementById("myPopup");
@@ -407,15 +319,35 @@ function uncheck(){
 	var x = document.getElementById("submit");
 	if(x.disabled == true){ x.disabled = false;}else{ x.disabled = true;}
 }
-function onSignIn(googleUser) {
-  var profile = googleUser.getBasicProfile();
-  console.log('ID: ' + profile.getId()); 
-  console.log('Name: ' + profile.getName());
-  console.log('Image URL: ' + profile.getImageUrl());
-  console.log('Email: ' + profile.getEmail()); 
-}
 function close_alert(x){
 	x.style.display='none';
+}
+function change(txt){
+	document.getElementById("skill-input").value = txt;
+	document.getElementById("opt").style.display = 'none';
+}
+function showselect(){
+	var x = document.getElementById("opt");
+	input = document.getElementById("skill-input");
+	var filter = input.value.toUpperCase();
+	var table = document.getElementById("opt");
+	var tr = table.getElementsByTagName("p");
+	x.style.display = 'block';
+	for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("a")[0];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+		
+      }
+    }
+  }
+}
+function close_alert(x){
+	x.style.display = 'none';
 }
 </script>
 <script src="https://apis.google.com/js/platform.js" async defer></script>

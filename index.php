@@ -147,7 +147,30 @@ if(isset($_POST["reject"]))
 
 ?>
 <style>
-
+.newpost {
+	width: 60%;
+	height: 65%;
+	margin: 5% auto;
+	box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+	background: white;
+	font-size: 17px;
+	overflow: auto;
+	text-align: justify;
+	border-radius: 10px;
+}
+.newpostl  {
+	float: left;
+	width: 50%;
+}
+.newpostr {
+	float: right;
+	width: 50%;
+}
+.newpostr textarea{
+	height: 250px;
+	width: 80%;
+	resize: none;
+}
 </style>
 <link rel="stylesheet" href="style.css">
 <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
@@ -155,7 +178,7 @@ if(isset($_POST["reject"]))
 <center>
   <table border="1px" width="55%" height="15%" style="border-collapse: collapse;margin-left: 5%;margin-top: 2.5%;">
   <td>
-  <a href="userprofile.php"><img src="<?php echo 'profile/'.$_SESSION["profile"].'';?>" height="70px" width="10%" style="border-radius: 50%;"></a><a href="upload.php"><input type="button" class="post-btn" value="POST"></a><br>
+  <a href="userprofile.php"><img src="<?php echo $dir;?>" height="70px" width="10%" style="border-radius: 50%;"></a><a href="upload.php"><input type="button" class="post-btn" value="POST"></a><br>
   <div class="post-item">
   <center><button class="btn" onclick="textpost()">TEXT</button>  <button class="btn" onclick="newpost()">PHOTO</button>  <button class="btn" onclick="newpost()">VIDEO</button></center>
   </td>
@@ -188,13 +211,13 @@ if($retval->num_rows > 0){
  ?>
 <div class="post_container">
 <div>
-Name:<?php echo ''.$postname.'';?><a href="viewprofile.php?idn=<?php echo $idn;?>&postname=<?php echo $postname?>&uname=<?php echo $postusername?>"><?php echo '@'.$postusername.'';?></a><br>
+Name:<?php echo ''.$postname.'';?><a href="profile.php?idn=<?php echo $idn;?>&postnamep=<?php echo $postname?>&postusernamep=<?php echo $postusername?>"><?php echo '@'.$postusername.'';?></a><br>
 Date: <?php echo $time_elapsed = timeAgo($time);?>
-  <a href="javasccript:void(0)" id="dropbtn" onclick="showmenu(<?php echo $identifier?>)" style="float: right;margin-top: -2%;">...</a>
+  <a href="javasccript:void(0)" id="dropbtn" onclick="showmenu('menu<?php echo $identifier?>')" style="float: right;margin-top: -2%;">...</a>
 	<div class="context-menu" id="context-menu">
-	<div class="menu" id="<?php echo $identifier?>">
-	<a href="javasccript:void(0)" onclick="shareopt(<?php echo $no?>)">Share</a>
-		<div class="dropdownb" id="<?php echo $no?>" >
+	<div class="menu" id="menu<?php echo $identifier?>">
+	<a href="javasccript:void(0)" onclick="shareopt('sub<?php echo $no?>')">Share</a>
+		<div class="dropdownb" id="sub<?php echo $no?>" >
 		<a href="#" class="fa fa-facebook" style="color: blue;">Facebook</a>
 		<a href="#" class="fa fa-instagram" style="padding: 6px;color: red; ">Instagram</a>
 		<a href="#" class="fa fa-twitter" style="padding: 6px;color: blue;">Twitter</a>
@@ -217,8 +240,8 @@ Date: <?php echo $time_elapsed = timeAgo($time);?>
 <input type="text" name="id" value="<?php echo $idn;?>" style="display: none;">
 <input type="text" name="newlikes" value="<?php echo $row["likes"]+1;?>" style="display: none;">
 <input type="text" name="newdislikes" value="<?php echo $row["dislikes"]+1;?>" style="display: none;">
-<?php echo $row["likes"];?><a id="like" class="fa fa-thumbs-up" onclick="document.getElementById('form').submit();"></a>
-<?php echo $row["dislikes"];?><a id="dislike" class="fa fa-thumbs-down" onclick="document.getElementById('form').submit();"></a>
+<a id="likes<?php echo $no;?>" class="fa fa-thumbs-up" onclick="likedislike(this.id)"><?php echo $row["likes"];?></a>
+<a id="dislike<?php echo $no;?>" class="fa fa-thumbs-down" onclick="likedislike(this.id)"><?php echo $row["dislikes"];?></a>
 <a class="fa fa-share" onclick="shareopt(<?php echo $no?>)"></a>
 </form>
 </div>
@@ -233,13 +256,13 @@ else
 ?>
  <div class="post_container">
 <div>
-Name:<?php echo ''.$postname.'';?><a href="viewprofile.php?idn=<?php echo $idn;?>&postname=<?php echo $postname?>&uname=<?php echo $postusername?>"><?php echo '@'.$postusername.'';?></a><br>
+Name:<?php echo ''.$postname.'';?><a href="profile.php?idn=<?php echo $idn;?>&postnamep=<?php echo $postname?>&postusernamep=<?php echo $postusername?>"><?php echo '@'.$postusername.'';?></a><br>
 Date: <?php echo $time_elapsed = timeAgo($time);?>
-  <a href="javasccript:void(0)" id="dropbtn" onclick="showmenu(<?php echo $identifier?>)" style="float: right;margin-top: -2%;">...</a>
+  <a href="javasccript:void(0)" id="dropbtn" onclick="showmenu('menu<?php echo $identifier?>')" style="float: right;margin-top: -2%;">...</a>
 	<div class="context-menu" id="context-menu">
-	<div class="menu" id="<?php echo $identifier?>">
-	<a href="javasccript:void(0)" onclick="shareopt(<?php echo $no?>)">Share</a>
-		<div class="dropdownb" id="<?php echo $no?>" >
+	<div class="menu" id="menu<?php echo $identifier;?>">
+	<a href="javasccript:void(0)" onclick="shareopt('sub<?php echo $no;?>')">Share</a>
+		<div class="dropdownb" id="sub<?php echo $no;?>" >
 		<a href="#" class="fa fa-facebook" style="color: blue;">Facebook</a>
 		<a href="#" class="fa fa-instagram" style="padding: 6px;color: red; ">Instagram</a>
 		<a href="#" class="fa fa-twitter" style="padding: 6px;color: blue;">Twitter</a>
@@ -263,8 +286,8 @@ Date: <?php echo $time_elapsed = timeAgo($time);?>
 <input type="text" name="id" value="<?php echo $idn;?>" style="display: none;">
 <input type="text" name="newlikes" value="<?php echo $row["likes"]+1;?>" style="display: none;">
 <input type="text" name="newdislikes" value="<?php echo $row["dislikes"]+1;?>" style="display: none;">
-<?php echo $row["likes"];?><a id="like" class="fa fa-thumbs-up" onclick="document.getElementById('form').submit();"></a>
-<?php echo $row["dislikes"];?><a id="dislike" class="fa fa-thumbs-down" onclick="document.getElementById('form').submit();"></a>
+<a id="like" class="fa fa-thumbs-up" onclick="likedislike(this.id)"><?php echo $row["likes"];?></a>
+<a id="dislike" class="fa fa-thumbs-down" onclick="likedislike(this.id)"><?php echo $row["dislikes"];?></a>
 <a class="fa fa-share"></a>
 </form>
 </div>
@@ -286,32 +309,25 @@ Date: <?php echo $time_elapsed = timeAgo($time);?>
     <button type="button" class="btn cancel" onclick="closeForm()" style="float: left;">Cancel</button>
 	</form></div>
 </div>
-<div>
-<table border="1px" width="55%" id="newpost" style="position: fixed;border: collapse;margin-left: 28%; display: none;background-color: white;bottom: 5px;z-index: 1;">
-<tr>
-<td width="53%" style="">
-<div style="position: absolute;margin-top: -5%;">
-<a href="javascript:void(0)" style="float: right;" onclick="document.getElementById('newpost').style.display='none'">&times;</a>
+<div id="newpost" style="position: fixed;display: none;z-index: 1;width: 100%;height: 100%;top: 0;">
+<div class="newpost">
+<a href="javascript:void(0)" style="float: right;zoom: 200%;cursor: pointer;color: red;" onclick="document.getElementById('newpost').style.display='none'">&times;</a>
+<div class="newpostl">
 <form method="post" action="" enctype="multipart/form-data">
-<h1>upload photo<br><input type="file" name="file" id="upload" value=""></h1>
-</div><br>
+<h1>upload photo<br><input type="file" name="file" id="upload" value=""></h1><br>
 <div class="img-preview" id="imgpreview">
 <img src="" alt="image preview" class="img-previewimg" style="margin-top: 30%;" id="imgpreviewimg">
 <span id="defaulttext">IMAGE PREVIEW</span>
-</div><br>
-</td>
-<td style="float: left;margin-left: ;">
-<div id="nextpost"><br>
-<br>DESCRIBE YOUR POST<br><br><div><textarea cols="42" rows="17" name="post-text" ></textarea></div><br>
+</div>
+</div>
+<div class="newpostr"><br>
+<br>DESCRIBE YOUR POST<br><br><textarea name="post-text" ></textarea><br>
 <div style="float: left;"><input type="reset" value="CANCEL" onclick="document.getElementById('newpost').style.display='none'" style="padding: 14px 25px;"></div>
-<div style="float: right;"><input type="submit" value="POST" name="post-image" style=" padding: 14px 25px;"></div>
+<div style="float: right;margin-right: 15%;"><input type="submit" value="POST" name="post-image" style=" padding: 14px 25px;"></div>
 </form>
 </div>
-</td>
-</table>
-
 </div>
-
+</div>
 <?php include "footer.php";?>
 <script>
 	const upload = document.getElementById("upload");
@@ -340,14 +356,12 @@ Date: <?php echo $time_elapsed = timeAgo($time);?>
 		}
 	});
 function mysearchFunction() {
-  // Declare variables
   var input, filter, table, tr, td, i, txtValue;
   input = document.getElementById("mysearch");
   filter = input.value.toUpperCase();
   table = document.getElementById("postdatatable");
   tr = table.getElementById("thetable");
 
-  // Loop through all table rows, and hide those who don't match the search query
   for (i = 0; i < tr.length; i++) {
     td = tr[i].getElementById("postdata")[0];
     if (td) {
@@ -359,6 +373,10 @@ function mysearchFunction() {
       }
     }
   }
+}
+
+function likedislike(id){
+	document.getElementById(id).innerHTML++;
 }
 
 function myFunction(x) {

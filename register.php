@@ -6,15 +6,16 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
 require_once "database.php";
 $email = $username = $id = $passwordb = $phone = '';
 $email_err = $password_err = '';
-
+$uri = 'index.php';
+if(isset($_GET["next"])){
+	$uri = trim($_GET["next"]);
+}
 if($_SERVER["REQUEST_METHOD"] == "POST")
 {
-	//CHECK IF EMAIL IS EMMPTY
 	if(empty(trim($_POST["email"]))){
 		$email_err = "enter email";
 	}else{ $email = trim($_POST["email"]);}
 	
-	//CHECK IF PASSWORD IS EMPTY
 	if(empty(trim($_POST["password"]))){
 		$password_err = "please enter the password";
 	}else{ $passworddb = trim($_POST["password"]);}
@@ -26,7 +27,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 		
 		if($stmt = mysqli_prepare($link, $sql))
 		{
-			//mysqli bind param
 			mysqli_stmt_bind_param($stmt, 's', $param_email);
 			
 			$param_email = $email;
@@ -48,9 +48,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 							$_SESSION["name"] = $name;
 							$_SESSION["username"] = $username;
 							$_SESSION["id"] = $id;
-							echo 'success';
-							header("refresh:1;url=index.php");
-							
+							echo '<div class="alert_succ">
+							  <span class="closebtn" onclick="close_alert(this.parentElement)">&times;</span>
+							  Login Successfull
+							</div>';
+							header('refresh:1;url='.$uri.'');
 							
 						}else{ $password_err = 'invalid password';}
 					}else{  echo 'something went wrong';}
@@ -83,10 +85,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 									$_SESSION["name"] = $name;
 									$_SESSION["username"] = $username;
 									$_SESSION["id"] = $id;
-									echo 'success';
-									header("refresh:1;url=index.php");
-									
-									
+									echo '<div class="alert_succ">
+									  <span class="closebtn" onclick="close_alert(this.parentElement)">&times;</span>
+									  Login Successfull
+									</div>';
+									header('refresh:1;url='.$uri.'');
 								}else{ $password_err = 'invalid password';}
 							}else{  echo 'something went wrong';}
 						}else {  
@@ -121,7 +124,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 									  <span class="closebtn" onclick="close_alert(this.parentElement)">&times;</span>
 									  Login Successfull
 									</div>';
-									header("refresh:1;url=index.php");
+									header('refresh:1;url='.$uri.'');
 									
 								}else{ $password_err = 'invalid password';}
 							}else{  echo 'something went wrong';}
@@ -232,7 +235,7 @@ PASSWORD:<br><input type="password" placeholder="enter password" name="password"
 <button class="btn-opt-google" type="button"><i class="fa fa-google"></i>Continue with Google</button><br>
 <button class="btn-opt-apple" type="button"><i class="fa fa-apple"></i>Continue with Apple</button><br>
 <hr/>
-<div class="bottom">DONT HAVE AN ACCOUNT? <br><a href="signup.php"><button type="button">Sign up</button></a></div><br>
+<div class="bottom">DONT HAVE AN ACCOUNT? <br><a href="signup.php?step=1"><button type="button">Sign up</button></a></div><br>
 </center>
 </form>
 </div>

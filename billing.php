@@ -1,7 +1,57 @@
+<?php
+$id =$_SESSION["id"];$error = $cardname = $cardnumber = $expyear = '';
+if(isset($_POST["add-billing"])){
+	if(empty(trim($_POST["cardname"]))){
+		$error = 'error';
+		echo '<div class="alert_fail">
+			  <span class="closebtn" onclick="close_alert(this.parentElement)">&times;</span>
+			  Enter card name
+			</div>';
+	}else{ $cardname = trim($_POST["cardname"]);}
+	if(empty(trim($_POST["cardnumber"]))){
+		$error = 'error';
+		echo '<div class="alert_fail">
+			  <span class="closebtn" onclick="close_alert(this.parentElement)">&times;</span>
+			  Enter card number
+			</div>';
+	}else{ $cardnumber = trim($_POST["cardnumber"]);}
+	if(empty(trim($_POST["expyear"]))){
+		$error = 'error';
+		echo '<div class="alert_fail">
+			  <span class="closebtn" onclick="close_alert(this.parentElement)">&times;</span>
+			  Enter card expiry date
+			</div>';
+	}else{ $expiry = trim($_POST["expyear"]);}
+	if(empty($error)){
+		$sql = 'INSERT INTO accounts(id, cardname, cardnumber, expyear) VALUES(?,?,?,?)';
+		if($stmt = mysqli_prepare($link, $sql)){
+			mysqli_stmt_bind_param($stmt, "ssss", $param_id, $param_cardname, $param_cardnumber, $param_expyear);
+			$param_id = $id;
+			$param_cardname = $cardname;
+			$param_cardnumber = $cardnumber;
+			$param_expyear = $expyear;
+			if(mysqli_stmt_execute($stmt)){
+				echo '<div class="alert_succ">
+				  <span class="closebtn" onclick="close_alert(this.parentElement)">&times;</span>
+				  Card added successfully
+				</div>';
+			}else{
+				echo '<div class="alert_fail">
+				  <span class="closebtn" onclick="close_alert(this.parentElement)">&times;</span>
+				  Failed to add card
+				</div>';
+			}
+			mysqli_Stmt_close($stmt);
+		}
+	}
+	
+}
+?>
 <style>
 .billing {
 	width: 55%;
 	height: 60%;
+	overflow: auto;
 	border-radius: 10px;
 	box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px; 
 }
@@ -16,18 +66,39 @@
 	color: green;
 	font-size: 15px;
 }
-
-#new_method {}
+.bill-card {
+	width: 65%;
+	height: 30%;
+	overflow: auto;
+	text-align: justify;
+	background: white;
+	border-radius: 15px;
+	margin-left: 5%;
+	font-size: 18px;
+	
+}
 </style>
 <div>
 <h1>Billing and payements</h1>
 <div class="billing">
 <h2>Billing methods<button onclick="addMethod()">Add a new billing method</button></h2>
 <hr/>
+Available cards: 
 <?php
 require_once "database.php";
 $sql = 'SELECT * FROM accounts WHERE id='.$_SESSION["id"].'';
-
+$retval = $link->query($sql);
+	if($retval->num_rows > 0){
+		while($row = $retval->fetch_assoc()){
+			$cardname = $row["cardname"];
+			$cardnumber = $row["cardnumber"];
+			$exp = $row["expyear"];
+?>
+<div class="bill-card"><p>Name: <?php echo $cardname;?></p><p>Card number: <?php echo $cardnumber;?></p><a class="fa fa-trash" style="float: right;margin-top: -15%;zoom: 150%;"></a></div><br>
+<?php
+		}
+	}
+		
 ?>
 </div>
 </div>
@@ -65,7 +136,7 @@ $sql = 'SELECT * FROM accounts WHERE id='.$_SESSION["id"].'';
 
         </div>
 
-        <input type="submit" value="Add Method" onsubmit="validateCard()" class="btn">
+        <input type="submit" value="Add Method" name="add-billing" onsubmit="validateCard()" class="btn">
       </form>
     </div>
   </div>

@@ -1,40 +1,29 @@
 <?php
 session_start();
 if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true){
-		header("location: register.php");
+		header('location: register.php?next=' . urlencode($_SERVER['REQUEST_URI']));
 		die();
 	}
 require_once "database.php";
 $idn = $_GET["idn"];
 $postusername = $_GET['postusernamep'];
 $postname = $_GET['postnamep'];
- $sql2 = 'SELECT email, phone, gender, profile, background FROM users where id ='.$idn.'';
-		
-		if($stmt2 = mysqli_prepare($link, $sql2))
-		{
-			
-			if(mysqli_stmt_execute($stmt2))
-			{
-				mysqli_stmt_store_result($stmt2);
-				
-				if(mysqli_stmt_num_rows($stmt2) == 1)
-				{
-					mysqli_stmt_bind_result($stmt2, $email, $phone, $gender, $profile, $background);
-					if(mysqli_stmt_fetch($stmt2))
-					{
-						
-					//session_start();
-					$_SESSION["email2"] = $email;
-					$_SESSION["phone2"] = $phone;
-					$_SESSION["gender2"] = $gender;
-					$_SESSION["profile2"] = $profile;
-					$_SESSION["background2"] = $background;
-					}	
-				}
-				
-			}
-	mysqli_stmt_close($stmt2);
-}
+	$sql = 'SELECT * FROM users WHERE id='.$idn.'';
+	$retval = $link->query($sql);
+	if($retval->num_rows > 0){
+		while($row = $retval->fetch_assoc()){
+			$dir= $row["profile"];
+			$title = $row["title"];
+			$about = $row["about"];
+			$rate = $row["rate"];
+			$phone = $row["phone"];
+			$gender = $row["gender"];
+			$background = $row["background"];
+			$pname = $row["name"];
+			$pusername = $row["username"];
+			$pemail = $row["email"];
+		}
+	}
 
  if(isset($_POST["sendmessage"]))
  {
@@ -150,6 +139,96 @@ while($rows=$result->fetch_assoc())
 }
 ?>
 <style>
+.profile-table {
+	width: 70%;
+	height: 700px;
+	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+	border-radius: 10px;
+	background: white;
+	margin-top: 5%;
+	
+}
+.profile-table img{
+	border-radius: 50%;
+	width: 10%;
+	height: 10%;
+}
+.h-btn {
+	float: right;
+	padding: 1.2% 5%;
+	background: green;
+	color: white;
+	border-radius: 9px;
+	font-size: 16px;
+	cursor: pointer;
+}
+.h-btn:hover {background: 	#32CD32;}
+.l-profile {
+	width: 40%;
+	box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+	height: 70%;
+	font-size: 19px; font-weight: bold;
+	float: left;
+	overflow: auto;
+}
+.r-profile {
+	width: 60%;
+	float: right;
+	box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+	height: 70%;
+}
+.l-profile a{
+	margin-left: 1%;
+	zoom: 100%;
+	float: right;
+	cursor: pointer;
+}
+.r-profile a{
+	margin-left:3%;
+	zoom: 70%;
+	cursor: pointer;
+}
+.r-profile p{
+	display: inline-block;
+	margin-left: 2.5%;
+	font-weight: bold;
+	width: 15%;
+	height: 5%;
+	border-radius: 8px;
+	text-align: center;
+	background: #ddd;
+	font-size: 17px;
+}
+.testimonials {
+	width: 70%;
+	height: 400px;
+	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+	border-radius: 10px;
+	background: white;
+	margin-top: 5%;
+}
+.employement {
+	width: 70%;
+	height: 400px;
+	overflow: auto;
+	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+	border-radius: 10px;
+	background: white;
+	margin-top: 5%;
+}
+.employement p{
+	font-weight: bold;
+	font-size: 18px;
+}
+.other-det {
+	width: 70%;
+	height: 300px;
+	overflow: auto;
+	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+	border-radius: 10px;
+	background: white;
+	margin-top: 5%;
+}
 .alert {
   padding: 20px;
   margin: auto;
@@ -160,96 +239,39 @@ while($rows=$result->fetch_assoc())
  text-align: center;
  margin: 0px 0px 0px 500px;
 }
-.profiletable table{
-	border-collapse: collapse;
-	width: 750px;
-	height: 470px;
-	margin-left: 0%;
-	padding: 10px 15px;
-    box-shadow: 0 1px #999;
+
+.formpopup {
+  background: white;
+  width: 60%;
+  height: 50%;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  margin-left: 25%;
+  margin-top: 10%;
 }
-.activity table{
-	border-collapse: collapse;
-	position: auto;
-	width: 780px;
-	height: 350px;
-	padding: 10px 15px;
-	margin: 0px 0px 0px -36px;
-	box-shadow: 0 2px #999;
-}
-.experience table{
-	border-collapse: collapse;
-	position: auto;
-	width: 780px;
-	height: 450px;
-	padding: 10px 15px;
-	margin: 0px 0px 0px -36px;
-	box-shadow: 0 2px #999;
-}
-.education table{
-	border-collapse: collapse;
-	position: auto;
-	width: 780px;
-	height: 450px;
-	margin: 0px 0px 0px -36px;
-	box-shadow: 0 2px #999;
-}
-.skills table{
-	border-collapse: collapse;
-	position: auto;
-	width: 780px;
-	height: 450px;
-	margin: 0px 0px 0px -36px;
-	box-shadow: 0 2px #999;
-}
-.form-popup {
-  display: none;
-  position: fixed;
-  border: collapse;
-  float: right;
-  right: 1%;  
-  bottom: 5px;
-  z-index: 1;
-  background-color: gray;
-  border-radius: 22px;
-  border: 3px solid #f1f1f1;
-  justify-content: center;
-  text-align: center;
-}
-.form-container {
-  max-width: 200px;
-  max-height: ;
-  padding: 10px;
-  background-color: #white;
-}
-.form-container textarea {
+
+.formpopup textarea {
   width: 100%;
-  padding: 15px;
-  margin: 5px 0 22px 0;
-  border: none;
   background: #f1f1f1;
   resize: none;
   min-height: 200px;
 }
-.form-container .cancel {
+.formpopup .cancel {
   background-color: red;
 }
 </style>
-<head>
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <title>PROJECT</title>
-</head>
 <style>
 .profile{
 	float: left;
 	position: fixed;
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-	width: 200px;
-	margin: auto;
+	width: 19%;
 	text-align: center;
-	margin-top: 5%;
+	top: 10%;
 }
 .title {
   color: grey;
@@ -278,9 +300,10 @@ while($rows=$result->fetch_assoc())
 }
 </style>
 <script src="script.js"></script>
-<body id="body" style="overflow: auto;">
+<link rel="stylesheet" href="style.css">
+<body id="body" style="overflow-x: hidden;">
 <?php 
- require_once "database.php"; 
+require_once "database.php"; 
 $counter = 0;
 $msg = $idm = '';
 $sql000 = 'SELECT * FROM messages where id='.$_SESSION["id"].' ORDER BY time DESC';
@@ -295,20 +318,35 @@ while($rows=$result000->fetch_assoc())
 }
 ?>
 <div class="menunav">
-<div class="dropdown">
-<img class="dropbtn" id="dropbtn" src="<?php echo 'profile/'.$_SESSION["profile"].'';?>" onclick="showoption()">
-<div>
-<div id="mydropdown" class="dropdown-content">
-<a href='userprofile.php'>PROFILE</a>
-<a href="message.php?msgn=Select message in the table to preview&non=1">INBOX<p style="width: 27%;text-align: center;float: right;margin-top: -2%;border-radius: 50%;background-color: green;"><?php echo$counter;?></p></a>
-<a href="javascript:void(0)" onclick="logout()">LOG OUT</a>
-</div>
-</div>
-</div>
-<div class="menulinks">
+<div id="mySidenav" class="sidenav">
+<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 <a href="index.php" >HOME</a>
 <a href="jobs.php?title=">MyJOBS</a>
 <a href="account.php">ACCOUNT</a>
+<div class="dropup">
+<button class="dropbtn" id="dropbtn" onclick="showoption()">More</button>
+<div>
+<div id="mydropdown" class="dropup-content">
+<a href='userprofile.php'>PROFILE</a>
+<a href="message.php?msgn=Select message in the table to preview&non=1">INBOX<p style="width: 27%;text-align: center;float: right;margin-top: -2%;border-radius: 50%;background-color: green;"><?php echo$counter;?></p></a>
+<a href="logout.php">LOG OUT</a>
+</div>
+</div>
+</div>
+</div>
+<span onclick="openNav()">
+<div id="menu-mobile" class="fa fa-bars"></div>
+</span>
+<div class="dropdown">
+	<a href="index.php"><button>Home</button></a>
+    <button class="dropbtn">MyJobs
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="upload.php">New Job</a>
+      <a href="jobs.php?title=">View Jobs</a>
+      <a href="jobsaccount.php">Account</a>
+    </div>
 </div>
 <div id="myInput">
 <form method="GET" action="search.php">
@@ -317,13 +355,13 @@ while($rows=$result000->fetch_assoc())
 </div>
 </div>
 <div class="profile">
-  <div style="position: auto;margin: 0px 0px 0px 0px; background-color: gray;">
-  <img src="<?php echo 'profile/'.$_SESSION["profile2"].'';?>" alt="Profile photo" height="80px" width="100px" ><br>
+  <div style="position: auto;background-color: gray;">
+  <img src="<?php echo $dir;?>" alt="Profile photo" height="90px" width="60%" ><br>
   </div>
-  <h1><p style="font-size: 70%;"><?php echo $postname;?></P></h1><p><?php echo '<a url="#'.$postname.'">@'.$postusername.'</a>';?></p><br><hr/>
+  <h1><p style="font-size: 70%;text-align: justify;justify-content: center;width: 90%;"><?php echo $postname;?></P></h1><p><?php echo '<a url="#'.$postname.'">@'.$postusername.'</a>';?></p><br><hr/>
   <p class="title">PROFFESSION</p>
-  <?php
-  $idn = $_GET["idn"];
+<?php
+$idn = $_GET["idn"];
 $counter = $counter2 = 0;
 $confirmed = 1;
 $sql0 = 'SELECT * FROM friends where id='. $idn.' ';
@@ -342,10 +380,11 @@ if($row["is_confirmed"] == $confirmed){
 	$counter2++;
 }
 }
- ?> 
+
+?> 
   connections:<?php echo $counter + $counter2;?> <br><br>
  
- <?php 
+<?php 
 	 require_once "database.php"; 
 	$counter = 0;
 	$idn = $_GET["idn"];
@@ -355,7 +394,7 @@ if($row["is_confirmed"] == $confirmed){
 	if($count == 0){
 ?>
 <form method="POST" action="" enctype="multipart/form-data">
-<input type="submit" value="Connect" name="connect" style="width: 200px; height: 60px;"></form>
+<input type="submit" value="Connect" name="connect" style="width: 90%; height: 60px;"></form>
 <?php	
 	}else {
 		$confirmed = 1;
@@ -369,109 +408,127 @@ if($row["is_confirmed"] == $confirmed){
 			{
 		if($rows["is_confirmed"] || $row["is_confirmed"] == $confirmed){
 ?>
-<input type="button" value="FRIENDS" style="width: 200px; height: 60px;" disabled>
+<input type="button" value="FRIENDS" style="width: 90%; height: 60px;" disabled>
 <?php
 	}else{
 ?>
-<input type="button" value="REQUEST PENDING" style="width: 200px; height: 60px;" disabled>	
+<input type="button" value="REQUEST PENDING" style="width: 90%; height: 60px;" disabled>	
 <?php
 	}
 			}
 	}
 }
-  ?>
+?>
   <br><hr/>
-  <a><button style="width: 200px; height: 60px;">About Me</button></a><br>
-  <button style="width: 200px; height: 60px;" onclick="history.go(-2)">BACK</button>
+  <a><button style="width: 90%; height: 60px;">About Me</button></a><br>
+  <button style="width: 90%; height: 60px;" onclick="history.go(-2)">BACK</button>
 </div>
-<div id="profilemain">
-<div class="profiletable">
-<center>
-<table border="1px" >
-<td>
-<img height="195px" src="<?php echo 'profile/'.$_SESSION["background2"].'';?>" style="margin: 0px 0px 0px 0px;position:relative;"/>
+<div style="margin-left: 20%;margin-top: 10%;">
+<div class="profile-table">
+<h1>Profile</h1>
+<img src="<?php echo$dir;?>">
+<button class="h-btn" onclick="document.getElementById('message').style.display='block'">Message</button>
+<p style="font-weight: bold;font-size: 19px;margin-top: -7%;margin-left: 10%;"><?php echo $pname;?><br><a >@<?php echo $pusername;?></a></p>
+<br>
 <hr/>
-<img src="<?php echo 'profile/'.$_SESSION["profile2"].'';?>" height="110px" width="140px" style="position: relative;border-radius: 50%;margin: -60px 0px 0px 20px;"/><br><br>
-<div style="position: auto;margin: 0px 0px 0px 20px;">
-NAME:<?php echo $postname;?><br>username <?php echo '@'.$postusername.'<br>';?><br>Other details:<br><br><br>connections: <br><br>
-<div>
-<button onclick="composemsg()" style="padding: 15px;float: right;">message</button>
-<form method="POST" action="" enctype="multipart/form-data"></form>
+<div class="l-profile">
+<p>Video Introduction</p><hr/>
+<p>Languages</p>
+<?php
+$sql = 'SELECT * FROM languages WHERE id='.$idn.'';
+$retval = $link->query($sql);
+if($retval->num_rows > 0){
+	while($row = $retval->fetch_assoc()){
+		$language= $row["language"];
+		$level = $row["level"];
+?>
+<p><?php echo $language;?></p>
+<span style="margin-left: 7%;font-weight: light;"><?php echo $level;?></span>
+<?php
+	}
+}
+?>
+<hr/>
+<p>Education</p>
+<?php
+$sql = 'SELECT * FROM education WHERE id='.$idn.'';
+$retval = $link->query($sql);
+if($retval->num_rows > 0){
+	while($row = $retval->fetch_assoc()){
+		$degree= $row["degree"];
+		$field = $row["field"];
+		$description = $row["description"];
+?>
+<p><?php echo $degree;?>|<?php echo $field;?></p>
+<span style="margin-left: 7%;font-weight: light;"><?php echo $description;?></span>
+<?php
+	}
+}
+?><br>
+</div>
+<div class="r-profile">
+<h1>Profession</h1>
+<span style="font-weight: bold;font-size: 19px;"><?php echo $title;?></span><br>
+<?php echo $about;?>
+<hr/>
+<h1>Skills</h1>
+<?php
+$sql = 'SELECT * FROM skills WHERE id='.$idn.'';
+$retval = $link->query($sql);
+if($retval->num_rows > 0){
+	while($row = $retval->fetch_assoc()){
+		$skill= $row["skill"];
+?>
+<p><?php echo $skill;?></p>
+<?php
+	}
+}
+?>
+<hr/>
 </div>
 </div>
-</td> 
-</table>
-</center>
-</div><br>
-
-<div class="activity">
-<center>
-<table border="1px" id="activitytable">
-<td>
-<div class="activitycont" style="position: relative; margin: 0px 0px 0px 10px;">
-POSTED JOBS
+<div class="testimonials">
+<h1>Testimonials</h1>
+<h2>Endorsements from past clients</h2>
+<hr/>
 </div>
-<div style="margin-bottom: 0px; position: relative; margin: 350px 0px 0px 0px;">
-<div id="showbtn" style="display: block;"><hr/><a href="javascript:void(0)" onclick="showMore()"><center>SEE ALL ACTIVITY</center></a></div>
+<div class="employement">
+<h1>Employment history</h1>
+<hr/>
+<?php
+$sql = 'SELECT * FROM work_experience WHERE id='.$idn.'';
+$retval = $link->query($sql);
+if($retval->num_rows > 0){
+	while($row = $retval->fetch_assoc()){
+		$title= $row["work_title"];
+		$company = $row["company"];
+		$description = $row["description"];
+?>
+<p><?php echo $title;?>|<?php echo $company;?></p>
+<span style="margin-left: 7%;font-weight: light;"><?php echo $description;?></span>
+<?php
+	}
+}
+?>
 </div>
-</td>
-</table>
-</center>
-</div><br>
-<div class="experience">
-<center>
-<table border="1px" id="exptable">
-<td>
-<div class="expcont" style="position: relative;top: -200px;">
-EXPERIENCE
+<div class="other-det">
+<h1>Other Experiences</h1>
+<hr/>
 </div>
-
-</td>
-</table>
-</center>
-</div><br>
-<div class="education">
-<center>
-<table border="1px" id="eductable">
-<td>
-<div class="expcont" style="position: relative;top: -200px;">
-EDUCATION
 </div>
-
-</td>
-</table>
-</center>
-</div><br>
-<div class="skills">
-<center>
-<table border="1px" id="skillstable">
-<td>
-<div class="expcont" style="position: relative;top: -200px;">
-SKILLS
-</div>
-
-</td>
-</table>
-</center>
-</div>
-<div class="form-popup" id="myForm">
-<form method="POST" action="" class="form-container">
-<h1>Message to <input type="text" value="<?php echo ''.$postusername.'';?>" name="tousername"></h1>
+<div id="message" style="display: none;position: fixed;z-index: 2;top: 0;width: 100%;height: 100%;">
+<div class="formpopup">
+<a onclick="document.getElementById('message').style.display='none'" style="float: right;zoom: 100%;color: red;cursor: pointer;">&times</a>
+<form method="POST">
+<h3>Message to <input type="text" value="<?php echo ''.$postusername.'';?>" name="tousername"></h3>
 <input type="text" value="<?php echo ''.$_SESSION["username"].'';?>" name="fromusername" style="display: none;">
 <textarea placeholder="Type message." name="message" required></textarea>
-<button type="submit" name="sendmessage" class="msgbtn">Send</button>
-<button type="button" class="msgbtn-cancel" onclick="closemsg()">Cancel</button>
+<button type="submit" name="sendmessage" style="cursor: pointer;" class="msgbtn">Send</button>
+<button type="button" class="msgbtn-cancel" onclick="document.getElementById('message').style.display='none'">Cancel</button>
 </form>
 </div>
-
 </div>
-<?php include "footer.php";?>
+</body>
 <script>
-function composemsg() {
-  document.getElementById("myForm").style.display = "block";
-}
-function closemsg() {
-  document.getElementById("myForm").style.display = "none";
-}
+
 </script>
-<?include "footer.php":?>

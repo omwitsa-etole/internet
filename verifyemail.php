@@ -1,9 +1,5 @@
 <?php 
 session_start();
-if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true){
-		header("location: register.php");
-		die();
-	}
 $email = $_SESSION["email"];
 
 
@@ -30,8 +26,11 @@ if(isset($_POST["verify"]))
 			$param_email = $email;
 			if(mysqli_stmt_execute($stmt))
 			{
-				echo 'Email verified success<br>Continue to <a href="register.php">Login</a>';
-				header("refresh: 1;url=register.php");
+				echo '<div class="alert_success">
+					  <span class="closebtn">&times;</span>
+					  Email verified suceesfully...
+					</div>';
+				header("refresh: 2;url=signup.php?step=2");
 			}else { echo 'error';}
 			mysqli_stmt_close($stmt);
 		}

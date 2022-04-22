@@ -1,7 +1,7 @@
 <?php
 	if(isset($_POST["make_edit"]))
 	{
-		$err = '';
+		$err = $gender = $name = $email = $name = $phone = $username = '';
 		$passwordn = trim($_POST["password"]);
 		$sql = 'SELECT password FROM users WHERE id=?';
 			
@@ -212,6 +212,55 @@
 		
 		
 	}
+	if(isset($_POST["delete"])) 
+	{
+		$passwordn = trim($_POST["password"]);
+		$sql0 = 'SELECT password FROM users WHERE id=?';
+			
+			if($stmt = mysqli_prepare($link, $sql0))
+			{
+				mysqli_stmt_bind_param($stmt, 's', $param_id);
+					
+					$param_id = $_SESSION["id"];
+				if(mysqli_stmt_execute($stmt)){
+					mysqli_stmt_store_result($stmt);
+					mysqli_stmt_bind_result($stmt, $password);
+					if(mysqli_stmt_fetch($stmt)){
+						$hash = password_hash($password, PASSWORD_DEFAULT);
+						if(password_verify($passwordn, $hash))
+						{
+							 $sql = 'DELETE FROM users WHERE id='.$_SESSION["id"].'';
+							 $execute = $link->query($sql);
+							    if (!$execute) {
+									 echo '<div class="alert_fail">
+										  <span class="closebtn" onclick="close_alert(this.parentElement)">&times;</span>
+										 Failed to delete account
+										</div>';
+									
+								} else {
+									$email = $_SESSION["email"];
+									$subject = 'ACCOUNT DELETED ';
+									$message = 'This is to inform you that your account at myJOBS was successfully deleted';
+									$header = "MyJobs Network\r\n";
+									$ret = mail($email,$subject,$message,$header);
+									if($ret){
+										header("refresh: 0;url=register.php");
+									}
+								    
+						        }
+								
+						}else{
+							echo '<div class="alert_fail">
+							  <span class="closebtn" onclick="close_alert(this.parentElement)">&times;</span>
+							 Invalid Password
+							</div>';
+						}
+					}
+				}
+				mysqli_stmt_close($stmt);
+			}
+
+	}
 	
 ?>
 <style>
@@ -281,22 +330,22 @@
 	background: white;
 }
 .modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
+  display: none; 
+  position: fixed; 
+  z-index: 1; 
   left: 0;
   top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
+  width: 100%;
+  height: 100%; 
+  overflow: auto; 
   padding-top: 50px;
 }
 
 .modal-content {
   background-color: #fefefe;
-  margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+  margin: 5% auto 15% auto; 
   border: 1px solid #888;
-  width: 80%; /* Could be more or less, depending on screen size */
+  width: 80%; 
 }
 
 hr {
@@ -335,22 +384,58 @@ hr {
   position: fixed;
   background-color: white;
   border: 1px solid #888;
-  margin-left: 20%;
-  width: 40%; /* Could be more or less, depending on screen size */
+  margin-left: 30%;
+  margin-top: 5%;
+  width: 40%; 
   height: 50%;
 }
-
-.enter-popup input[type=password] {
-  width: 90%;
-  padding: 15px;
-  margin: 5px 0 22px 0;
-  border: none;
-  background: #f1f1f1;
+.enter-popup2 {
+  display: block;
+  position: fixed;
+  width: 45%;
+	height: 65%;
+	margin-left: 20%;
+	background: white;
+	box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+	font-size: 23px;
+	font-weight: bold;
+	text-align: center;	;
 }
 
-.enter-popup input[type=password]:focus {
+.enter-popup input{
+	width: 90%;
+	margin-left: 5%;
+	margin-top: 2%;
+	margin-bottom: 2%;
+	padding: 3%;
+}
+.enter-popup2 input{
+	width: 90%;
+	margin-left: 5%;
+	margin-top: 2%;
+	margin-bottom: 2%;
+	padding: 3%;
+}
+.enter-popup2 button{
+	width: 65%;
+	margin-left: 5%;
+	padding: 4%;
+	border-radius: 15px;
+	background: green;
+	color: white;
+	margin-top: 10%;
+	font-size: 20px;
+	font-weight: bold;
+	cursor: pointer;
+}
+.enter-popup input:focus {
   background-color: #ddd;
   outline: none;
+}
+.enter-popup a{
+	margin-left: -10%;
+	z-index: 1;
+	cursor: pointer;
 }
 .enter-popup .bnt {
   background-color: #04AA6D;
@@ -529,8 +614,8 @@ Company name<br><input type="text" name="company-name" style="padding: 1.5% 12%;
 <div id="enterpassedit" class="modal">
   <div class="enter-popup">
 	<h1>Enter Password</h1><br>
-    <input type="password" placeholder="Enter Password" name="password" required><br>
-	<input type="submit" class="bnt" name="make_edit" value="SUBMIT">
+    <input type="password" placeholder="Enter Password" id="password" name="password" required><a class="fa fa-eye fa-lg" onclick="showPassword()" id="toggle-password"></a><br>
+	<button type="submit" class="bnt" name="make_edit">SUBMIT</button>
     <button type="button" class="bnt cancel" onclick="document.getElementById('enterpassedit').style.display='none'">Close</button>
 	</div>
 </div>
@@ -550,11 +635,11 @@ Company name<br><input type="text" name="company-name" style="padding: 1.5% 12%;
 </div>
 <div id="enterpass" class="modal">
 <form class="modal-content" method="POST" action="">
-  <div class="enter-popup">
+  <div class="enter-popup2">
+	<a style="float: right;" onclick="document.getElementById('enterpass').style.display='none'">&times</a>
 	<h1>Enter Password</h1><br>
     <input type="password" placeholder="Enter Password" name="password" required><br>
 	<button type="submit" class="bnt" name="delete">Delete</button>
-    <button type="button" class="bnt cancel" onclick="document.getElementById('enterpass').style.display='none'">Close</button>
 	</div>
 </form>
 </div>
@@ -564,6 +649,7 @@ function edit(){
 	document.getElementById("id").disabled=false;
 	document.getElementById("name").disabled=false;
 	document.getElementById("email").disabled=false;
+	document.getElementById("phone").disabled=false;
 	document.getElementById("make_edit").style.display='block';
 	
 }
@@ -585,5 +671,16 @@ session_destroy();
 }
 function newClient(){
 	document.getElementById("newclient").style.display='block';
+}
+function changeInput(old, newType) {
+	old.type = newType;
+} 
+  
+function showPassword() {
+	if(document.getElementById('password').type == "password"){
+		changeInput(document.getElementById('password'), 'text');	
+	}else{
+		changeInput(document.getElementById('password'), 'password');
+	}
 }
 </script>

@@ -34,16 +34,15 @@ if(isset($_GET["search"]))
 		if($row["filename"] == "")
 		{
 ?>
-<div style="margin-top: 5%;">
 <div class="post_container">
 <div>
-Name:<?php echo ''.$postname.'';?><a href="viewprofile.php?idn=<?php echo $idn;?>&postname=<?php echo $postname?>&uname=<?php echo $postusername?>"><?php echo '@'.$postusername.'';?></a><br>
+Name:<?php echo ''.$postname.'';?><a href="profile.php?idn=<?php echo $idn;?>&postnamep=<?php echo $postname?>&postusernamep=<?php echo $postusername?>"><?php echo '@'.$postusername.'';?></a><br>
 Date: <?php echo $time_elapsed = timeAgo($time);?>
-  <a href="javasccript:void(0)" id="dropbtn" onclick="showmenu(<?php echo $identifier?>)" style="float: right;margin-top: -2%;">...</a>
+  <a href="javasccript:void(0)" id="dropbtn" onclick="showmenu('menu<?php echo $identifier?>')" style="float: right;margin-top: -2%;">...</a>
 	<div class="context-menu" id="context-menu">
-	<div class="menu" id="<?php echo $identifier?>">
-	<a href="javasccript:void(0)" onclick="shareopt(<?php echo $no?>)">Share</a>
-		<div class="dropdownb" id="<?php echo $no?>" >
+	<div class="menu" id="menu<?php echo $identifier?>">
+	<a href="javasccript:void(0)" onclick="shareopt('sub<?php echo $no?>')">Share</a>
+		<div class="dropdownb" id="sub<?php echo $no?>" >
 		<a href="#" class="fa fa-facebook" style="color: blue;">Facebook</a>
 		<a href="#" class="fa fa-instagram" style="padding: 6px;color: red; ">Instagram</a>
 		<a href="#" class="fa fa-twitter" style="padding: 6px;color: blue;">Twitter</a>
@@ -66,8 +65,8 @@ Date: <?php echo $time_elapsed = timeAgo($time);?>
 <input type="text" name="id" value="<?php echo $idn;?>" style="display: none;">
 <input type="text" name="newlikes" value="<?php echo $row["likes"]+1;?>" style="display: none;">
 <input type="text" name="newdislikes" value="<?php echo $row["dislikes"]+1;?>" style="display: none;">
-<?php echo $row["likes"];?><a id="like" class="fa fa-thumbs-up" onclick="document.getElementById('form').submit();"></a>
-<?php echo $row["dislikes"];?><a id="dislike" class="fa fa-thumbs-down" onclick="document.getElementById('form').submit();"></a>
+<a id="likes<?php echo $no;?>" class="fa fa-thumbs-up" onclick="likedislike(this.id)"><?php echo $row["likes"];?></a>
+<a id="dislike<?php echo $no;?>" class="fa fa-thumbs-down" onclick="likedislike(this.id)"><?php echo $row["dislikes"];?></a>
 <a class="fa fa-share" onclick="shareopt(<?php echo $no?>)"></a>
 </form>
 </div>
@@ -82,13 +81,13 @@ else
 ?>
  <div class="post_container">
 <div>
-Name:<?php echo ''.$postname.'';?><a href="viewprofile.php?idn=<?php echo $idn;?>&postname=<?php echo $postname?>&uname=<?php echo $postusername?>"><?php echo '@'.$postusername.'';?></a><br>
+Name:<?php echo ''.$postname.'';?><a href="profile.php?idn=<?php echo $idn;?>&postnamep=<?php echo $postname?>&postusernamep=<?php echo $postusername?>"><?php echo '@'.$postusername.'';?></a><br>
 Date: <?php echo $time_elapsed = timeAgo($time);?>
-  <a href="javasccript:void(0)" id="dropbtn" onclick="showmenu(<?php echo $identifier?>)" style="float: right;margin-top: -2%;">...</a>
+  <a href="javasccript:void(0)" id="dropbtn" onclick="showmenu('menu<?php echo $identifier?>')" style="float: right;margin-top: -2%;">...</a>
 	<div class="context-menu" id="context-menu">
-	<div class="menu" id="<?php echo $identifier?>">
-	<a href="javasccript:void(0)" onclick="shareopt(<?php echo $no?>)">Share</a>
-		<div class="dropdownb" id="<?php echo $no?>" >
+	<div class="menu" id="menu<?php echo $identifier;?>">
+	<a href="javasccript:void(0)" onclick="shareopt('sub<?php echo $no;?>')">Share</a>
+		<div class="dropdownb" id="sub<?php echo $no;?>" >
 		<a href="#" class="fa fa-facebook" style="color: blue;">Facebook</a>
 		<a href="#" class="fa fa-instagram" style="padding: 6px;color: red; ">Instagram</a>
 		<a href="#" class="fa fa-twitter" style="padding: 6px;color: blue;">Twitter</a>
@@ -112,8 +111,8 @@ Date: <?php echo $time_elapsed = timeAgo($time);?>
 <input type="text" name="id" value="<?php echo $idn;?>" style="display: none;">
 <input type="text" name="newlikes" value="<?php echo $row["likes"]+1;?>" style="display: none;">
 <input type="text" name="newdislikes" value="<?php echo $row["dislikes"]+1;?>" style="display: none;">
-<?php echo $row["likes"];?><a id="like" class="fa fa-thumbs-up" onclick="document.getElementById('form').submit();"></a>
-<?php echo $row["dislikes"];?><a id="dislike" class="fa fa-thumbs-down" onclick="document.getElementById('form').submit();"></a>
+<a id="like" class="fa fa-thumbs-up" onclick="likedislike(this.id)"><?php echo $row["likes"];?></a>
+<a id="dislike" class="fa fa-thumbs-down" onclick="likedislike(this.id)"><?php echo $row["dislikes"];?></a>
 <a class="fa fa-share"></a>
 </form>
 </div>
