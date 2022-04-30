@@ -161,6 +161,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 	box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
 	margin-top: 1%;
 	font-size: 17px;
+	text-align: justify;
+	overflow: auto;
 }
 .btn-sign{
 	padding: 3% 17%;
@@ -223,9 +225,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 <center>
 <div class="login">
 <form method="post" action="">
-<center>EMAIL:<br><input type="text" placeholder="enter email/username/phone" name="email" value="<?php echo $username;?>" style="padding: 1.5% 7%; border: line;"><br>
+<center>EMAIL:<br><input type="text" placeholder="enter email/username/phone" name="email" value="<?php echo $username;?>" style="width: 60%;height: 7%; border: line;"><br>
 <span ><?php echo $email_err?></span><br>
-PASSWORD:<br><input type="password" placeholder="enter password" name="password" id="password" style="padding: 1.5% 7%; border: line;"><br>
+PASSWORD:<br><input type="password" placeholder="enter password" name="password" id="password" style="width: 60%;height: 7%; border: line;"><br>
 <span ><?php echo $password_err?></span><br>
 <input type="checkbox" onchange="showpass()">show password<br>
 <a href="forgotpass.php">forgot password?</a><br><br>
